@@ -36,10 +36,10 @@ router.put("/api/users/id/:id/edit", async (req, res) => {
   user.lastName = req.body.content.lastName
   user.email = req.body.content.email
   user.phone = req.body.content.phone
-  user.balance = req.body.content.balance
   user.darkMode = req.body.content.darkMode
+  user.history = req.body.content.history
 
-  recipe.save(function(err) {
+  user.save(function(err) {
     if (err) {
       next(err)
     } else {
