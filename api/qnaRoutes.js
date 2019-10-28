@@ -17,4 +17,15 @@ router.get('/api/qna/', async (req, res) => {
   res.status(200).send(allQuestions)
 })
 
+//delete one question
+router.delete('/api/qna/delete/:id', async (req, res) => {
+    try {
+    let questionToDelete = await Qna.findById(req.params.id)
+    questionToDelete.delete()
+    res.status(200).send("Question deleted!")
+  } catch (err) {
+    res.send("No such question")
+  }
+})
+
 module.exports = router
