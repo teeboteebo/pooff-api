@@ -7,6 +7,12 @@ router.get("/api/users", async (req, res) => {
   let allUsers = await User.find()
   res.status(200).send(allUsers)
 })
+
+router.get("/api/users/id/:id", async (req, res) => {
+  let user = await User.findById(req.params.id)
+  res.status(200).send(user)
+})
+
 router.post("/api/users", async (req, res) => {
   let newUser = new User({
     username: "DonPooFF",
@@ -46,6 +52,16 @@ router.put("/api/users/id/:id/edit", async (req, res) => {
       res.status(200).send()
     }
   })
+})
+
+router.delete("/api/users/delete/all", async (req, res) => {
+  try {
+    let usersToDelete = await User.find()
+    usersToDelete.delete()
+    res.status(200).send("All users terminated!")
+  } catch (err) {
+    res.send("Could not delete users")
+  }
 })
 
 router.delete("/api/users/delete", async (req, res) => {
