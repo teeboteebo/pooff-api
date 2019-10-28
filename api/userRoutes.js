@@ -37,6 +37,7 @@ router.put("/api/users/id/:id/edit", async (req, res) => {
   user.email = req.body.content.email
   user.phone = req.body.content.phone
   user.darkMode = req.body.content.darkMode
+  user.history = req.body.content.history
 
   user.save(function(err) {
     if (err) {
