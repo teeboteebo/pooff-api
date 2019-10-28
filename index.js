@@ -5,6 +5,7 @@ const MongoStore = require("connect-mongo")(session)
 const settings = require("./config/settings.json")
 const connectToDb = require("./config/db")
 const userRoutes = require('./api/userRoutes')
+const notificationRoutes = require ('./api/notificationRoutes')
 
 connectToDb()
 
@@ -25,7 +26,7 @@ app.use(
   })
 )
 
-app.use(userRoutes)
+app.use(userRoutes,notificationRoutes)
 
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
