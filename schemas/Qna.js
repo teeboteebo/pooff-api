@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 let questionAndAnswer = new Schema({
   question: { type: String },
   answer: { type: String },
-  counter: { type: Number },
+  counter: { type: Number, default: 0 },
   addedAtDate: { type: Date, default: new Date().getTime() }
 })
 
