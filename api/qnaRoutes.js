@@ -3,7 +3,7 @@ const Qna = require('../schemas/Qna')
 
 let router = express.Router()
 
-//add question by admin
+//add questions / answers by admin
 router.post('/api/qna', async (req, res) => {
   let qna = new Qna(req.body)
   console.log(qna)
@@ -11,20 +11,34 @@ router.post('/api/qna', async (req, res) => {
   res.json(qna)
 })
 
-// find all questions, available for all
-router.get('/api/qna/', async (req, res) => {
+// find all questions and answers
+router.get('/api/qna', async (req, res) => {
   let allQuestions = await Qna.find()
   res.status(200).send(allQuestions)
 })
 
+// update questions and answers
+router.put('/api/qna/:id', async (req, res) => {
+  let updateQuestionAndAnswer = await Qna.findById(req.params.id)
+  updateQuestionAndAnswer.question = req.body.question
+  updateQuestionAndAnswer.answer = req.body.answer
+  updateQuestionAndAnswer.save(function(err) {
+    if (err) {
+      next(err)
+    } else {
+      res.json(updateQuestionAndAnswer)
+    }
+  })
+})
+
 //delete one question
 router.delete('/api/qna/delete/:id', async (req, res) => {
-    try {
+  try {
     let questionToDelete = await Qna.findById(req.params.id)
     questionToDelete.delete()
-    res.status(200).send("Question deleted!")
+    res.status(200).send('Question deleted!')
   } catch (err) {
-    res.send("No such question")
+    res.send('No such question')
   }
 })
 
