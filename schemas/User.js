@@ -12,7 +12,8 @@ let userSchema = new Schema({
   transactions: [
     { type: Schema.Types.ObjectId, ref: 'Transaction' }
   ],
-  darkMode:     { type: Boolean, default: "false" }
+  darkMode:     { type: Boolean, default: false },
+  active:       { type: Boolean, default: false }
 })
 
 module.exports = mongoose.model("User", userSchema)
