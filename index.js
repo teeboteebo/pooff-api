@@ -6,6 +6,7 @@ const settings = require('./config/settings.json')
 const connectToDb = require('./config/db')
 const userRoutes = require('./api/userRoutes')
 const qnaRoutes = require('./api/qnaRoutes')
+const loginRoutes = require('./api/loginRoutes')
 
 connectToDb()
 
@@ -20,12 +21,16 @@ app.use(
     secret: settings.cookieSecret,
     resave: true,
     saveUninitialized: true,
+    cookie: { secure: false },
     store: new MongoStore({
       mongooseConnection: global.db
     })
   })
 )
 
-app.use(userRoutes, qnaRoutes)
+app.use(
+  userRoutes, 
+  loginRoutes
+  )
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
