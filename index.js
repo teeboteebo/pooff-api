@@ -28,8 +28,7 @@ app.use(
   })
 )
 
-app.use(userRoutes, counterRoute)
-  loginRoutes
+app.use(userRoutes, loginRoutes, counterRoute)
 
 // let all user roles have access get mytransactions
 // because the "acl" in this case take place inside the route
