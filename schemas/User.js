@@ -9,9 +9,6 @@ let userSchema = new Schema({
   lastName:     { type: String },
   email:        { type: String, unique: true },
   phone:        { type: String, unique: true },
-  transactions: [
-    { type: Schema.Types.ObjectId, ref: 'Transaction' }
-  ],
   darkMode:     { type: Boolean, default: "false" }
 })
 
