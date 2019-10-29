@@ -1,12 +1,12 @@
 const express = require("express")
 const Transaction = require("../schemas/Transaction")
 const User = require("../schemas/User")
-
+const checkBalance = require('./checkBalance')
 const router = express.Router()
 
 
-router.post('/api/transactions', async (req, res) => {
-  let balance = await getBalance(req.session.user._id)
+router.post('/api/transactions', async (req, res) => {  
+  let balance = await checkBalance(req.session.user._id)
   
   let { receiver, amount, message } = req.body
   let sender = await User.findById(req.session.user._id)
@@ -40,34 +40,5 @@ router.post('/api/transactions', async (req, res) => {
   }
   res.json(result)
 })
-
-async function getBalance(sessionUserId) {
-  let user = await User.findById(sessionUserId).populate('transactions').exec()
-
-  if (!user) { return; }
-
-  let balance = 0
-
-  console.log(user.transactions);
-
-
-  user.transactions.forEach(transaction => {
-    let userId = JSON.stringify(sessionUserId)
-    let receiver = JSON.stringify(transaction.receiver)
-    let sender = JSON.stringify(transaction.sender)
-
-    if (receiver === userId) {
-      balance += transaction.amount
-      console.log('adding balance');
-
-    } else if (sender === userId) {
-      balance -= transaction.amount
-      console.log('subtracting balance');
-
-    }
-  })
-
-  return balance
-}
 
 module.exports = router
