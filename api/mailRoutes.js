@@ -22,7 +22,7 @@ router.post("/api/send", function(req, res, next) {
   if (req.body.subject === "Välkommen till Pooff!")
     mailOptions = {
       from: `"Pooff" <pooffmoney@gmail.com>`,
-      replyTo: "tojjinfo@gmail.com",
+      replyTo: "pooffmoney@gmail.com",
       to: req.body.email,
       subject: req.body.subject,
       html: `<div style="padding: 30px 50px 50px; text-align: center; background: #fff; max-width: 600px; margin: 0 auto 15px; box-shadow: 0 0 5px 0px rgba(0,0,0,0.4)">
@@ -30,10 +30,21 @@ router.post("/api/send", function(req, res, next) {
         req.body
           .id} style="word-wrap: none; text-decoration: none; font-size: 16px; font-weight: bold; background: #6C80C5; color: #fff; padding: 15px 30px; border-radius: 100px; opacity: 0.8; margin-top: 40px;">Aktivera konto</a></div>`
     }
+  else if (req.body.subject === "Återställ lösenord")
+    mailOptions = {
+      from: `"Pooff" <pooffmoney@gmail.com>`,
+      replyTo: "pooffmoney@gmail.com",
+      to: req.body.email,
+      subject: req.body.subject,
+      html: `<div style="padding: 30px 50px 50px; text-align: center; background: #fff; max-width: 600px; margin: 0 auto 15px; box-shadow: 0 0 5px 0px rgba(0,0,0,0.4)">
+      <a href=${"http://localhost:5000/api/users/resetpassword/" +
+        req.body
+          .id} style="word-wrap: none; text-decoration: none; font-size: 16px; font-weight: bold; background: #6C80C5; color: #fff; padding: 15px 30px; border-radius: 100px; opacity: 0.8; margin-top: 40px;">Klicka här för att återställa lösenord</a></div>`
+    }
   else {
     mailOptions = {
       from: `"Pooff" <pooffmoney@gmail.com>`,
-      replyTo: "tojjinfo@gmail.com",
+      replyTo: "pooffmoney@gmail.com",
       to: req.body.email,
       subject: req.body.subject,
       html: req.body.message
@@ -45,6 +56,7 @@ router.post("/api/send", function(req, res, next) {
       console.error("there was an error: ", err)
     } else {
       console.log("here is the res: ", res)
+      res.status(200).send()
     }
   })
 })
