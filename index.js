@@ -28,9 +28,6 @@ app.use(
   })
 )
 
-app.use(
-  userRoutes, 
-  loginRoutes
-  )
+app.use(userRoutes, loginRoutes, qnaRoutes)
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
