@@ -5,7 +5,7 @@ let questionAndAnswer = new Schema({
   question: { type: String },
   answer: { type: String },
   counter: { type: Number, default: 0 },
-  addedAtDate: { type: Date, default: new Date().getTime() }
+  createdAtDate: { type: Number }
 })
 
 module.exports = mongoose.model('Qna', questionAndAnswer)
