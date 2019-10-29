@@ -25,7 +25,23 @@ app.use(
   })
 )
 
-app.use(userRoutes)
+app.use(userRoutes, counterRoute)
+
+// let all user roles have access get mytransactions
+// because the "acl" in this case take place inside the route
+// by only looking up transactions belonging to the logged in user
+app.get('/api/mytransactions',  async (req, res) => {
+  let user = req.session.user;
+  if(!user){ res.json([]); return; }
+  // lookup transactions involving me in the db
+  // given that amount in a transactions is always a positive number
+  // then reverse the number to negative for everyhing i sent
+  let iGot = await Transaction.find({receiver: user._id});
+  let iSent = await Transaction.find({sender: user._id}).map(x => ({...x, amount: -x.amount}));
+  let allMyTransactions = iGot.concat(iSent);
+  allMyTransactions.sort((a,b) => a.date < b.date ? -1 : 1);
+  res.json(allMyTransactions);
+})
 
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
