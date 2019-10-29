@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 let questionAndAnswer = new Schema({
-  question: { type: String, unique: true },
-  answer: { type: String, unique: true },
-  counter: { type: Number },
-  addedAtDate: { type: Date, required: true, default: Date.now }
+  question: { type: String },
+  answer: { type: String },
+  counter: { type: Number, default: 0 },
+  addedAtDate: { type: Date, default: new Date().getTime() }
 })
 
 module.exports = mongoose.model('Qna', questionAndAnswer)

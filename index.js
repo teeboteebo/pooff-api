@@ -1,10 +1,11 @@
-const express = require("express")
-const bodyParser = require("body-parser")
-const session = require("express-session")
-const MongoStore = require("connect-mongo")(session)
-const settings = require("./config/settings.json")
-const connectToDb = require("./config/db")
+const express = require('express')
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+const settings = require('./config/settings.json')
+const connectToDb = require('./config/db')
 const userRoutes = require('./api/userRoutes')
+const qnaRoutes = require('./api/qnaRoutes')
 const loginRoutes = require('./api/loginRoutes')
 
 connectToDb()
@@ -12,7 +13,7 @@ connectToDb()
 const app = express()
 
 app.use(bodyParser.json())
-app.get("/", (req, res) => res.send("Welcome To Pooff Server"))
+app.get('/', (req, res) => res.send('Welcome To Pooff Server'))
 global.salt = settings.salt
 
 app.use(
@@ -31,6 +32,5 @@ app.use(
   userRoutes, 
   loginRoutes
   )
-
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
