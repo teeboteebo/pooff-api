@@ -56,9 +56,9 @@ router.post("/api/send", function(req, res, next) {
       console.error("there was an error: ", err)
     } else {
       console.log("here is the res: ", res)
-      res.status(200).send()
     }
   })
+  res.status(200).send()
 })
 
 module.exports = router
