@@ -29,10 +29,23 @@ router.post("/api/users", async (req, res) => {
   res.json(error ? { error } : { success: "User created" })
 })
 
-router.put("/api/users/active/:id/", async (req, res) => {
+router.put("/api/users/activate/:id/", async (req, res) => {
   let user = await User.findById(req.params.id)
 
-  user.active = !user.active
+  user.active = true
+  user.save(function(err) {
+    if (err) {
+      next(err)
+    } else {
+      res.status(200).send()
+    }
+  })
+})
+
+router.put("/api/users/deactivate/:id/", async (req, res) => {
+  let user = await User.findById(req.params.id)
+
+  user.active = false
   user.save(function(err) {
     if (err) {
       next(err)
