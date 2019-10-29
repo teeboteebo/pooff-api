@@ -9,7 +9,8 @@ let userSchema = new Schema({
   lastName:     { type: String },
   email:        { type: String, unique: true },
   phone:        { type: String, unique: true },
-  darkMode:     { type: Boolean, default: "false" }
+  active:       { type: Boolean, default: false }
+  darkMode:     { type: Boolean, default: false },
 })
 
 module.exports = mongoose.model("User", userSchema)
