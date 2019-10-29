@@ -1,5 +1,5 @@
 const express = require('express')
-const Qna = require('./schemas/Qna')
+const Qna = require('../schemas/Qna')
 
 const router = express.Router()
 
