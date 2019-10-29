@@ -22,8 +22,8 @@ router.put('/api/qna/counter/:id', async (req, res) => {
 
 // find all questions and answers
 router.get('/api/qna', async (req, res) => {
-  let allQuestions = await Qna.find()
-  res.status(200).send(allQuestions)
+  let allQuestionsAndAnswers = await Qna.find()
+  res.status(200).send(allQuestionsAndAnswers)
 })
 
 // update questions and answers
