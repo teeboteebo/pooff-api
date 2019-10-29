@@ -12,8 +12,8 @@ router.get('/api/notification', async (req, res) => {
 
 //create notification
 router.post('/api/notification', async (req, res) => { 
+        let notify = new Notification(req.body); 
     try{
-        let notify = new Notification(req.body.content); 
         await notify.save(); 
         res.json(notify)
     }
@@ -34,5 +34,6 @@ router.delete('/api/notification/delete', async (req, res) =>{
       }
  })
 
+ 
 
 module.exports = router
