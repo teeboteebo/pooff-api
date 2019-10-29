@@ -4,15 +4,16 @@ const Qna = require('../schemas/Qna')
 let router = express.Router()
 
 //add questions / answers by admin
-router.post('/api/qna', async (req, res) => {
+router.post('/api/qnas', async (req, res) => {
   let qna = new Qna(req.body)
+  qna.createdAtDate = Date.now()
   console.log(qna)
   await qna.save()
   res.json(qna)
 })
 
 //update for counter
-router.put('/api/qna/counter/:id', async (req, res) => {
+router.put('/api/qnas/counter/:id', async (req, res) => {
   let favQuestion = await Qna.findById(req.params.id)
   favQuestion.counter++
   console.log(favQuestion.counter)
@@ -21,13 +22,13 @@ router.put('/api/qna/counter/:id', async (req, res) => {
 })
 
 // find all questions and answers
-router.get('/api/qna', async (req, res) => {
+router.get('/api/qnas', async (req, res) => {
   let allQuestions = await Qna.find()
   res.status(200).send(allQuestions)
 })
 
 // update questions and answers
-router.put('/api/qna/:id', async (req, res) => {
+router.put('/api/qnas/:id', async (req, res) => {
   let updateQuestionAndAnswer = await Qna.findById(req.params.id)
   updateQuestionAndAnswer.question = req.body.question
   updateQuestionAndAnswer.answer = req.body.answer
@@ -41,7 +42,7 @@ router.put('/api/qna/:id', async (req, res) => {
 })
 
 //delete one question
-router.delete('/api/qna/delete/:id', async (req, res) => {
+router.delete('/api/qnas/delete/:id', async (req, res) => {
   try {
     let questionToDelete = await Qna.findById(req.params.id)
     questionToDelete.delete()
