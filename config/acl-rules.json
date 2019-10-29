@@ -1,0 +1,50 @@
+{
+  "apiPath": "/api",
+  "rules": {
+    "users": {
+      "admin": "all",
+      "bank": "get",
+      "parent": "post get put",
+      "user": "post get put",
+      "visitor": "post"
+    },
+    "transactions": {
+      "admin": "",
+      "bank": "post",
+      "parent": "post",
+      "user": "post"
+    },
+    "mytransactions": {
+      "admin": "get",
+      "bank": "get",
+      "parent": "get",
+      "user": "get",
+      "visitor": "get"
+    },
+    "qna": {
+      "admin": "all",
+      "bank": "get",
+      "parent": "get",
+      "user": "get",
+      "visitor": "get"
+    },
+    "counter": {
+      "bank": "put",
+      "parent": "put",
+      "user": "put",
+      "visitor": "put"
+    },
+    "login": {
+      "admin": "all",
+      "parent": "all",
+      "user": "all",
+      "visitor": "all"
+    },
+    "notifications": {
+      "admin": "get post",
+      "bank": "get post",
+      "parent": "get post",
+      "user": "get post"
+    }
+  }
+}

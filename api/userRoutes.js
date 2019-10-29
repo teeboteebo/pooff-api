@@ -14,23 +14,45 @@ router.get("/api/users/id/:id", async (req, res) => {
 })
 
 router.post("/api/users", async (req, res) => {
-  let newUser = new User({
-    username: "DonPooFF",
-    role: "Don Pooff",
-    password: "123",
-    firstName: "Don",
-    lastName: "Pooff",
-    email: "pooff@gmail.com",
-    phone: "070donpooff88",
-    balance: 10000000,
-    darkMode: true
-  })
-  try {
-    await newUser.save()
-    await res.status(200).send({ SAVED: newUser })
-  } catch (err) {
-    res.send(err)
+  // we should check that the same username does
+  // not exist... let's save that for letter
+  if (typeof req.body.password !== "string" || req.body.password.length < 6) {
+    res.json({ error: "Password to short" })
+    return
   }
+  let user = new User({
+    ...req.body
+    // password: encryptPassword(req.body.password)
+  })
+  let error
+  let resultFromSave = await user.save().catch(err => (error = err + ""))
+  res.json(error ? { error } : { success: "User created" })
+})
+
+router.put("/api/users/activate/:id/", async (req, res) => {
+  let user = await User.findById(req.params.id)
+
+  user.active = true
+  user.save(function(err) {
+    if (err) {
+      next(err)
+    } else {
+      res.status(200).send()
+    }
+  })
+})
+
+router.put("/api/users/deactivate/:id/", async (req, res) => {
+  let user = await User.findById(req.params.id)
+
+  user.active = false
+  user.save(function(err) {
+    if (err) {
+      next(err)
+    } else {
+      res.status(200).send()
+    }
+  })
 })
 
 router.put("/api/users/id/:id/edit", async (req, res) => {
