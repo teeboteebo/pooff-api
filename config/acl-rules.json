@@ -1,4 +1,5 @@
 {
+  "apiPath": "/api",
   "rules": {
     "users": {
       "admin": "all",
@@ -20,19 +21,18 @@
       "user": "get",
       "visitor": "get"
     },
-    "qnas": {
+    "qna": {
       "admin": "all",
       "bank": "get",
       "parent": "get",
       "user": "get",
       "visitor": "get"
     },
-    "qnacounter": {
-      "admin": "all",
-      "bank": "get put",
-      "parent": "get put",
-      "user": "get put",
-      "visitor": "get put"
+    "counter": {
+      "bank": "put",
+      "parent": "put",
+      "user": "put",
+      "visitor": "put"
     },
     "login": {
       "admin": "all",
@@ -41,7 +41,10 @@
       "visitor": "all"
     },
     "notifications": {
-
+      "admin": "get post",
+      "bank": "get post",
+      "parent": "get post",
+      "user": "get post"
     }
   }
 }
