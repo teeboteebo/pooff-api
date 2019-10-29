@@ -1,0 +1,47 @@
+{
+  "rules": {
+    "users": {
+      "admin": "all",
+      "bank": "get",
+      "parent": "post get put",
+      "user": "post get put",
+      "visitor": "post"
+    },
+    "transactions": {
+      "admin": "",
+      "bank": "post",
+      "parent": "post",
+      "user": "post"
+    },
+    "mytransactions": {
+      "admin": "get",
+      "bank": "get",
+      "parent": "get",
+      "user": "get",
+      "visitor": "get"
+    },
+    "qnas": {
+      "admin": "all",
+      "bank": "get",
+      "parent": "get",
+      "user": "get",
+      "visitor": "get"
+    },
+    "qnacounter": {
+      "admin": "all",
+      "bank": "get put",
+      "parent": "get put",
+      "user": "get put",
+      "visitor": "get put"
+    },
+    "login": {
+      "admin": "all",
+      "parent": "all",
+      "user": "all",
+      "visitor": "all"
+    },
+    "notifications": {
+
+    }
+  }
+}
