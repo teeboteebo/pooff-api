@@ -6,6 +6,7 @@ const settings = require("./config/settings.json")
 const connectToDb = require("./config/db")
 const userRoutes = require("./api/userRoutes")
 const qnaRoutes = require("./api/qnaRoutes")
+const notificationRoutes = require ('./api/notificationRoutes')
 const counterRoute = require("./api/counterRoute")
 const loginRoutes = require("./api/loginRoutes")
 const mailRoutes = require("./api/mailRoutes")
@@ -34,7 +35,7 @@ app.use(
 
 app.use(acl(aclRules))
 
-app.use(userRoutes, loginRoutes, qnaRoutes, counterRoute, mailRoutes)
+app.use(userRoutes, loginRoutes, qnaRoutes, counterRoute, mailRoutes, notificationRoutes)
 
 // let all user roles have access get mytransactions
 // because the "acl" in this case take place inside the route
