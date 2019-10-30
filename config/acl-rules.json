@@ -8,9 +8,15 @@
       "user": "post get put",
       "visitor": "post"
     },
+    "myuser": {
+      "admin": "all",
+      "bank": "get put",
+      "parent": "get put",
+      "user": "get put"
+    },
     "transactions": {
-      "admin": "",
-      "bank": "post",
+      "admin": "get post",
+      "bank": "get post",
       "parent": "post",
       "user": "post"
     },
@@ -18,8 +24,7 @@
       "admin": "get",
       "bank": "get",
       "parent": "get",
-      "user": "get",
-      "visitor": "get"
+      "user": "get"
     },
     "qna": {
       "admin": "all",
@@ -36,6 +41,7 @@
     },
     "login": {
       "admin": "all",
+      "bank": "all",
       "parent": "all",
       "user": "all",
       "visitor": "all"
