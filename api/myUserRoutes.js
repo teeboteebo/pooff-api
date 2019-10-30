@@ -1,5 +1,6 @@
 const express = require("express")
 const User = require("../schemas/User")
+const encryptPassword = require('../config/encryptPassword')
 
 const router = express.Router()
 
@@ -18,10 +19,25 @@ router.put('/api/myuser', async (req, res) => {
 })
 
 router.put('/api/godaddy', async (req, res) => {
-  let user = await User.findById(req.session.user._id)
-  user.role = 'parent'
-  await user.save()
-  res.json(user)
+  if (typeof req.body.password !== "string" || req.body.password.length < 6) {
+    res.json({ error: "Password to short" })
+    return
+  }
+
+  let newUser = new User({
+    ...req.body,
+    password: encryptPassword(req.body.password)
+  })
+
+  let error
+  let resultFromSave = await newUser.save().catch(err => (error = err + ""))
+  
+  let thisUser = await User.findById(req.session.user._id)
+  thisUser.role = 'parent'
+  thisUser.children.push(resultFromSave._id)
+  await thisUser.save()
+
+  res.json(error ? { error } : { success: "User created" })
 })
 
 router.get('/api/mychildren', async (req, res) => {
