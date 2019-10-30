@@ -3,11 +3,11 @@ const nodemailer = require("nodemailer")
 const { mail } = require("../config/config")
 const uuidv4 = require("uuid/v4")
 let mailOptions = {}
-let link = uuidv4()
 
 const router = express.Router()
 
 router.post("/api/send", function(req, res, next) {
+  let link = uuidv4()
   const transporter = nodemailer.createTransport({
     host: "smtp.sendgrid.net",
     port: 465,
