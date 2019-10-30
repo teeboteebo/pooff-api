@@ -1,11 +1,12 @@
 const express = require("express")
+const encryptPassword = require('../config/encryptPassword')
 const User = require("../schemas/User")
 
 const router = express.Router()
 
 router.post('/api/login', async (req, res) => {
   let {username, password} = req.body;
-  // password = encryptPassword(password);
+  password = encryptPassword(password);
   let user = await User.findOne({username, password})
     .select('username role').exec();
   if(user){ req.session.user = user };
