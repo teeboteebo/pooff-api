@@ -1,12 +1,13 @@
 const express = require("express")
 const nodemailer = require("nodemailer")
 const { mail } = require("../config/config")
+const Link = require("../schemas/Link")
 const uuidv4 = require("uuid/v4")
 let mailOptions = {}
 
 const router = express.Router()
 
-router.post("/api/send", function(req, res, next) {
+router.post("/api/send", async function(req, res, next) {
   let link = uuidv4()
   const transporter = nodemailer.createTransport({
     host: "smtp.sendgrid.net",
@@ -58,7 +59,16 @@ router.post("/api/send", function(req, res, next) {
       console.log("here is the res: ", res)
     }
   })
-  res.status(200).send()
+  let linkObj = new Link()
+  linkObj.user = req.body.id
+  linkObj.link = link
+  linkObj.time = Date.now()
+
+  console.log("linkObj", linkObj)
+
+  await linkObj.save(console.log("SAVED"))
+
+  res.status(200).send(linkObj)
 })
 
 module.exports = router
