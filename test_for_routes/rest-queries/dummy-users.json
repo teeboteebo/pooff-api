@@ -1,17 +1,22 @@
 [
   {
-    "username": "Farbror Blå",
+    "username": "Mi amore",
     "password": "112112",
-    "role": "police"
+    "role": "pooffer"
   },
   {
-    "username": "Farbror Grå",
+    "username": "Helmut den förskräklige",
     "password": "bankonme",
-    "role": "banker"
+    "role": "pooffer"
   },
   {
-    "username": "Mrs Green",
+    "username": "Jabba the hut",
     "password": "cleanair",
-    "role": "environmental activist"
+    "role": "pooffer"
+  },
+  {
+    "username": "Ronny the raeegger",
+    "password": "654321",
+    "role": "pooffer"
   }
 ]
