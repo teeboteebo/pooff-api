@@ -11,9 +11,11 @@ module.exports = ({apiPath, rules}) => {
       // (if not logged in set the role visitorr)
       let userRole = req.session.user ?
         req.session.user.role || 'visitor' : 'visitor';
+      
       let url = req.url;
       let method = req.method.toLowerCase();
       url += url.slice(-1) !== '/' ? '/' : '';
+      
       let entity = url.split(apiPath).join('').split('/')[0];
       // Loop through our rules
       for(let rule in rules){
@@ -27,7 +29,7 @@ module.exports = ({apiPath, rules}) => {
               let allowed = rules[rule][role]
                 .toLowerCase().split(' ');
               if(allowed.includes(method) 
-                || allowed.includes('all')){
+                || allowed.includes('all')){                
                 // allow user to see this routes
                 next();
                 return;
