@@ -17,7 +17,7 @@ router.post('/api/transactions', async (req, res) => {
   
   let balance = await checkBalance(req.session.user._id)
   let result = 'Success'
-  if (balance >= amount || sender.role === 'bank' ) {
+  if (amount > 0 && balance >= amount || sender.role === 'bank' ) {
     let newTransaction = new Transaction({
       sender: sender._id,
       receiver: receiver._id,
