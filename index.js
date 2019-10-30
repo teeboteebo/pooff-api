@@ -6,12 +6,14 @@ const settings = require("./config/settings.json")
 const connectToDb = require("./config/db")
 const userRoutes = require("./api/userRoutes")
 const qnaRoutes = require("./api/qnaRoutes")
-const notificationRoutes = require ('./api/notificationRoutes')
+const notificationRoutes = require("./api/notificationRoutes")
 const counterRoute = require("./api/counterRoute")
 const loginRoutes = require("./api/loginRoutes")
 const mailRoutes = require("./api/mailRoutes")
 const aclRules = require("./config/acl-rules.json")
 const acl = require("./middleware/acl")
+const cron = require("node-cron")
+const Link = require("./schemas/Link")
 
 connectToDb()
 
@@ -35,7 +37,14 @@ app.use(
 
 app.use(acl(aclRules))
 
-app.use(userRoutes, loginRoutes, qnaRoutes, counterRoute, mailRoutes, notificationRoutes)
+app.use(
+  userRoutes,
+  loginRoutes,
+  qnaRoutes,
+  counterRoute,
+  mailRoutes,
+  notificationRoutes
+)
 
 // let all user roles have access get mytransactions
 // because the "acl" in this case take place inside the route
@@ -57,6 +66,18 @@ app.get("/api/mytransactions", async (req, res) => {
   let allMyTransactions = iGot.concat(iSent)
   allMyTransactions.sort((a, b) => (a.date < b.date ? -1 : 1))
   res.json(allMyTransactions)
+})
+
+cron.schedule("* * * * *", async function() {
+  console.log("---------------------")
+  console.log("Running Cron Job")
+  let allLinks = await Link.find()
+  allLinks.map(link => {
+    if (Date.now() - 900000 > link.time) {
+      link.delete()
+      console.log("deleted", link)
+    }
+  })
 })
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
