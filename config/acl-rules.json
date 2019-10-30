@@ -26,6 +26,9 @@
       "parent": "get",
       "user": "get"
     },
+    "mychildren": {
+      "parent": "get"
+    },
     "qna": {
       "admin": "all",
       "bank": "get",
