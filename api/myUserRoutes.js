@@ -4,7 +4,7 @@ const User = require("../schemas/User")
 const router = express.Router()
 
 router.get('/api/myuser', async (req, res) => {
-  let user = await User.findById(req.session.user._id).populate('children').populate('children.transactions').exec()
+  let user = await User.findById(req.session.user._id).populate('transactions').exec()
   res.json(user)
 })
 router.put('/api/myuser', async (req, res) => {
