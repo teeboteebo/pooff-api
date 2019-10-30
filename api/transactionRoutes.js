@@ -5,12 +5,17 @@ const checkBalance = require('./checkBalance')
 const router = express.Router()
 
 
+router.get('/api/transactions', async (req, res) => {
+  let allTransactions = await Transaction.find()
+  res.json(allTransactions)
+})
+
 router.post('/api/transactions', async (req, res) => {  
-  let balance = await checkBalance(req.session.user._id)
-  
   let { receiver, amount, message } = req.body
   let sender = await User.findById(req.session.user._id)
   receiver = await User.findOne({ phone: receiver })
+  
+  let balance = await checkBalance(req.session.user._id)
   let result = 'Success'
   if (balance >= amount) {
     let newTransaction = new Transaction({
