@@ -68,7 +68,7 @@ router.post("/api/send", async function(req, res, next) {
 
   await linkObj.save(console.log("SAVED"))
 
-  res.status(200).send(linkObj)
+  await res.status(200).send(linkObj)
 })
 
 module.exports = router
