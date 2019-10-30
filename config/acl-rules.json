@@ -15,8 +15,8 @@
       "user": "get put"
     },
     "transactions": {
-      "admin": "",
-      "bank": "all",
+      "admin": "get post",
+      "bank": "get post",
       "parent": "post",
       "user": "post"
     },
