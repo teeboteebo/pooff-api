@@ -51,7 +51,9 @@ app.use(
   counterRoute, 
   transactionRoutes,
   myTransactionsRoute,
-  myUserRoutes)
+  myUserRoutes,
+  notificationRoutes,
+  mailRoutes)
 
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
