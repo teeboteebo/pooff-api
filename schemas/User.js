@@ -2,13 +2,13 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 let userSchema = new Schema({
-  username:     { type: String, unique: true },
+  username:     { type: String, unique: true, required: true },
   role:         { type: String, default: 'user' },
-  password:     { type: String },
-  firstName:    { type: String },
-  lastName:     { type: String },
-  email:        { type: String, unique: true },
-  phone:        { type: String, unique: true },
+  password:     { type: String, required: true },
+  firstName:    { type: String, required: true },
+  lastName:     { type: String, required: true },
+  email:        { type: String, unique: true, required: true },
+  phone:        { type: String, unique: true, required: true },
   active:       { type: Boolean, default: false },
   darkMode:     { type: Boolean, default: false },
   transactions: [
