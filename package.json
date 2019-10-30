@@ -4,7 +4,7 @@
   "description": "Pooff - and you're rich",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd test_for_routes && node ./test-runner.js && exit 1"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "connect-mongo": "^3.1.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
@@ -29,6 +30,10 @@
     "mongoose": "^5.7.7",
     "nodemailer": "^6.3.1",
     "nodemon": "^1.19.4",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "cors": "^2.8.5",
+    "open": "^6.4.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7"
   }
 }
