@@ -26,6 +26,10 @@
       "parent": "get",
       "user": "get"
     },
+    "godaddy": {
+      "parent": "put",
+      "user": "put"
+    },
     "mychildren": {
       "parent": "get"
     },
