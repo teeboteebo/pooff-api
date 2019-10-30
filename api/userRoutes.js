@@ -1,4 +1,5 @@
 const express = require("express")
+const encryptPassword = require('../config/encryptPassword')
 const User = require("../schemas/User")
 
 const router = express.Router()
@@ -21,8 +22,8 @@ router.post("/api/users", async (req, res) => {
     return
   }
   let user = new User({
-    ...req.body
-    // password: encryptPassword(req.body.password)
+    ...req.body,
+    password: encryptPassword(req.body.password)
   })
   let error
   let resultFromSave = await user.save().catch(err => (error = err + ""))
