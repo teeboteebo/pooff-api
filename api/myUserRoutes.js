@@ -30,12 +30,13 @@ router.put('/api/godaddy', async (req, res) => {
   })
 
   let error
-  let resultFromSave = await newUser.save().catch(err => (error = err + ""))
+  await newUser.save().catch(err => (error = err + ""))
   
   let thisUser = await User.findById(req.session.user._id)
+  console.log(thisUser)
   thisUser.role = 'parent'
-  thisUser.children.push(resultFromSave._id)
-  await thisUser.save()
+  thisUser.children.push(newUser._id)
+  await thisUser.save().catch(err => error = err + '')
 
   res.json(error ? { error } : { success: "User created" })
 })
