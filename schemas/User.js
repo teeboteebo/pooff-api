@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 let userSchema = new Schema({
+  personId:     { type: String, unique: true, required: true },
   username:     { type: String, unique: true, required: true },
   role:         { type: String, default: 'user' },
   password:     { type: String, required: true },
