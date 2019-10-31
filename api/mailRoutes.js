@@ -24,30 +24,33 @@ router.post("/api/send", async function(req, res, next) {
     }
   })
 
-  if (req.body.subject === "Välkommen till Pooff!")
-    mailOptions = {
-      from: `"Pooff" <pooffmoney@gmail.com>`,
-      replyTo: "pooffmoney@gmail.com",
-      to: req.body.email,
-      subject: req.body.subject,
-      html: welcomeTemplate(link, () => {})
-    }
-  else if (req.body.subject === "Återställ lösenord")
-    mailOptions = {
-      from: `"Pooff" <pooffmoney@gmail.com>`,
-      replyTo: "pooffmoney@gmail.com",
-      to: req.body.email,
-      subject: req.body.subject,
-      html: resetPwTemplate(link, () => {})
-    }
-  else {
-    mailOptions = {
-      from: `"Pooff" <pooffmoney@gmail.com>`,
-      replyTo: "pooffmoney@gmail.com",
-      to: req.body.email,
-      subject: req.body.subject,
-      html: req.body.message
-    }
+  switch (req.body.subject) {
+    case "Välkommen till Pooff!":
+      mailOptions = {
+        from: `"Pooff" <pooffmoney@gmail.com>`,
+        replyTo: "pooffmoney@gmail.com",
+        to: req.body.email,
+        subject: req.body.subject,
+        html: welcomeTemplate(link, () => {})
+      }
+      break
+    case "Återställ lösenord":
+      mailOptions = {
+        from: `"Pooff" <pooffmoney@gmail.com>`,
+        replyTo: "pooffmoney@gmail.com",
+        to: req.body.email,
+        subject: req.body.subject,
+        html: resetPwTemplate(link, () => {})
+      }
+      break
+    default:
+      smailOptions = {
+        from: `"Pooff" <pooffmoney@gmail.com>`,
+        replyTo: "pooffmoney@gmail.com",
+        to: req.body.email,
+        subject: req.body.subject,
+        html: req.body.message
+      }
   }
 
   transporter.sendMail(mailOptions, function(err, res) {
