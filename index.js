@@ -61,8 +61,6 @@ app.use(
 )
 
 cron.schedule("* * * * *", async function() {
-  console.log("---------------------")
-  console.log("Running Cron Job")
   let allLinks = await Link.find()
   allLinks.map(link => {
     if (Date.now() - 900000 > link.time) {
