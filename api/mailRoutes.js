@@ -2,6 +2,8 @@ const express = require("express")
 const nodemailer = require("nodemailer")
 const { mail } = require("../config/config")
 const Link = require("../schemas/Link")
+const resetPwTemplate = require("../mail/resetPwTemplate")
+const welcomeTemplate = require("../mail/welcomeTemplate")
 const uuidv4 = require("uuid/v4")
 let mailOptions = {}
 
@@ -28,9 +30,7 @@ router.post("/api/send", async function(req, res, next) {
       replyTo: "pooffmoney@gmail.com",
       to: req.body.email,
       subject: req.body.subject,
-      html: `<div style="padding: 30px 50px 50px; text-align: center; background: #fff; max-width: 600px; margin: 0 auto 15px; box-shadow: 0 0 5px 0px rgba(0,0,0,0.4)">
-      <a href=${"http://localhost:5000/api/users/activate/" +
-        link} style="word-wrap: none; text-decoration: none; font-size: 16px; font-weight: bold; background: #6C80C5; color: #fff; padding: 15px 30px; border-radius: 100px; opacity: 0.8; margin-top: 40px;">Aktivera konto</a></div>`
+      html: welcomeTemplate(link, () => {})
     }
   else if (req.body.subject === "Återställ lösenord")
     mailOptions = {
@@ -38,9 +38,7 @@ router.post("/api/send", async function(req, res, next) {
       replyTo: "pooffmoney@gmail.com",
       to: req.body.email,
       subject: req.body.subject,
-      html: `<div style="padding: 30px 50px 50px; text-align: center; background: #fff; max-width: 600px; margin: 0 auto 15px; box-shadow: 0 0 5px 0px rgba(0,0,0,0.4)">
-      <a href=${"http://localhost:5000/api/users/resetpassword/" +
-        link} style="word-wrap: none; text-decoration: none; font-size: 16px; font-weight: bold; background: #6C80C5; color: #fff; padding: 15px 30px; border-radius: 100px; opacity: 0.8; margin-top: 40px;">Klicka här för att återställa lösenord</a></div>`
+      html: resetPwTemplate(link, () => {})
     }
   else {
     mailOptions = {
@@ -59,12 +57,8 @@ router.post("/api/send", async function(req, res, next) {
       console.log("here is the res: ", res)
     }
   })
-  let linkObj = new Link()
-  linkObj.user = req.body.id
-  linkObj.link = link
-  linkObj.time = Date.now()
 
-  console.log("linkObj", linkObj)
+  let linkObj = new Link({ user: req.body.id, link, time: Date.now() })
 
   await linkObj.save(console.log("SAVED"))
 
