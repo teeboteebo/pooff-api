@@ -4,24 +4,29 @@
     "users": {
       "admin": "all",
       "bank": "get",
-      "parent": "post get put",
-      "user": "post get put",
+      "visitor": "post"
+    },
+    "send": {
+      "admin": "post",
+      "bank": "post",
+      "parent": "post",
+      "user": "post",
       "visitor": "post"
     },
     "myuser": {
-      "admin": "all",
+      "admin": "get put",
       "bank": "get put",
       "parent": "get put",
       "user": "get put"
     },
     "transactions": {
       "admin": "get post",
-      "bank": "get post",
+      "bank": "post",
       "parent": "post",
       "user": "post"
     },
     "mytransactions": {
-      "admin": "get",
+      "admin": "get post",
       "bank": "get",
       "parent": "get",
       "user": "get"
@@ -41,23 +46,22 @@
       "visitor": "get"
     },
     "counter": {
-      "bank": "put",
       "parent": "put",
       "user": "put",
       "visitor": "put"
     },
     "login": {
-      "admin": "all",
-      "bank": "all",
-      "parent": "all",
-      "user": "all",
-      "visitor": "all"
+      "admin": "get delete",
+      "bank": "get delete",
+      "parent": "get delete",
+      "user": "get delete",
+      "visitor": "get post"
     },
     "notifications": {
-      "admin": "get post",
-      "bank": "get post",
-      "parent": "get post",
-      "user": "get post"
+      "admin": "",
+      "bank": "",
+      "parent": "",
+      "user": ""
     }
   }
 }
