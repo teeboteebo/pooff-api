@@ -23,7 +23,8 @@ router.post("/api/users", async (req, res) => {
   }
   let user = new User({
     ...req.body,
-    password: encryptPassword(req.body.password)
+    password: encryptPassword(req.body.password),
+    role: "user"
   })
   let error
   let resultFromSave = await user.save().catch(err => (error = err + ""))

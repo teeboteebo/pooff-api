@@ -46,7 +46,7 @@ app.use(
   })
 )
 
-app.use(acl(aclRules))
+//app.use(acl(aclRules))
 
 app.use(
   userRoutes,

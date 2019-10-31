@@ -12,15 +12,6 @@ router.post('/api/qnas', async (req, res) => {
   res.json(qna)
 })
 
-//update for counter
-router.put('/api/qnas/counter/:id', async (req, res) => {
-  let favQuestion = await Qna.findById(req.params.id)
-  favQuestion.counter++
-  console.log(favQuestion.counter)
-  await favQuestion.save()
-  res.json(favQuestion)
-})
-
 // find all questions and answers
 router.get('/api/qna', async (req, res) => {
   let allQuestionsAndAnswers = await Qna.find()
