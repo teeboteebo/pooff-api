@@ -21,9 +21,14 @@ router.post("/api/users", async (req, res) => {
     res.json({ error: "Password to short" })
     return
   }
+
+  let role = 'user'
+  if (req.session.user && req.session.user.role === 'admin') role = req.body.role || 'user'
+
   let user = new User({
     ...req.body,
-    password: encryptPassword(req.body.password)
+    password: encryptPassword(req.body.password),
+    role
   })
   let error
   let resultFromSave = await user.save().catch(err => (error = err + ""))
