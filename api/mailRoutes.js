@@ -25,28 +25,38 @@ router.post("/api/send", async function(req, res, next) {
     }
   })
 
-  switch (req.body.subject) {
-    case "Välkommen till Pooff!":
+  switch (req.body.type) {
+    case "activate":
       mailOptions = {
         from: `"Pooff" <pooffmoney@gmail.com>`,
         replyTo: "pooffmoney@gmail.com",
         to: req.body.email,
-        subject: req.body.subject,
+        subject: "Välkommen till Pooff!",
         html: welcomeTemplate(link, () => {})
       }
-      linkObj = new Link({ email: req.body.email, link, time: Date.now() })
+      linkObj = new Link({
+        email: req.body.email,
+        link,
+        time: Date.now(),
+        type: req.body.type
+      })
       await linkObj.save(console.log("SAVED"))
       break
 
-    case "Återställ lösenord":
+    case "reset":
       mailOptions = {
         from: `"Pooff" <pooffmoney@gmail.com>`,
         replyTo: "pooffmoney@gmail.com",
         to: req.body.email,
-        subject: req.body.subject,
+        subject: "Återställ lösenord",
         html: resetPwTemplate(link, () => {})
       }
-      linkObj = new Link({ email: req.body.email, link, time: Date.now() })
+      linkObj = new Link({
+        email: req.body.email,
+        link,
+        time: Date.now(),
+        type: req.body.type
+      })
       await linkObj.save(console.log("SAVED"))
       break
 
