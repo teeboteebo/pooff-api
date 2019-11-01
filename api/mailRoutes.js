@@ -4,13 +4,14 @@ const { mail } = require("../config/config")
 const Link = require("../schemas/Link")
 const resetPwTemplate = require("../mail/resetPwTemplate")
 const welcomeTemplate = require("../mail/welcomeTemplate")
-const uuidv4 = require("uuid/v4")
+const crypto = require("crypto")
 let mailOptions = {}
 
 const router = express.Router()
 
 router.post("/api/send", async function(req, res, next) {
-  let link = uuidv4()
+  let linkObj = {}
+  const link = crypto.randomBytes(20).toString("hex")
   const transporter = nodemailer.createTransport({
     host: "smtp.sendgrid.net",
     port: 465,
@@ -33,7 +34,10 @@ router.post("/api/send", async function(req, res, next) {
         subject: req.body.subject,
         html: welcomeTemplate(link, () => {})
       }
+      linkObj = new Link({ email: req.body.email, link, time: Date.now() })
+      await linkObj.save(console.log("SAVED"))
       break
+
     case "Återställ lösenord":
       mailOptions = {
         from: `"Pooff" <pooffmoney@gmail.com>`,
@@ -42,9 +46,12 @@ router.post("/api/send", async function(req, res, next) {
         subject: req.body.subject,
         html: resetPwTemplate(link, () => {})
       }
+      linkObj = new Link({ email: req.body.email, link, time: Date.now() })
+      await linkObj.save(console.log("SAVED"))
       break
+
     default:
-      smailOptions = {
+      mailOptions = {
         from: `"Pooff" <pooffmoney@gmail.com>`,
         replyTo: "pooffmoney@gmail.com",
         to: req.body.email,
@@ -60,12 +67,7 @@ router.post("/api/send", async function(req, res, next) {
       console.log("here is the res: ", res)
     }
   })
-
-  let linkObj = new Link({ user: req.body.id, link, time: Date.now() })
-
-  await linkObj.save(console.log("SAVED"))
-
-  await res.status(200).send(linkObj)
+  res.status(200).send()
 })
 
 module.exports = router

@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 let linkSchema = new Schema({
-  user: { type: String },
+  email: { type: String },
   link: { type: String },
   time: { type: Number }
 })
