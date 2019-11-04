@@ -1,4 +1,4 @@
-module.exports = ({ expect, response, store }) => ({
+module.exports = ({ expect, response }) => ({
   path: 'myuser',
   method: 'get',
 
@@ -16,6 +16,5 @@ module.exports = ({ expect, response, store }) => ({
     expect(response).to.have.property('lastName')
     expect(response).to.have.property('email')
     expect(response).to.have.property('phone')
-    store.userOnePhone = response.phone
   }
 })
