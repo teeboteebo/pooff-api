@@ -4,8 +4,6 @@
     "users": {
       "admin": "all",
       "bank": "get",
-      "parent": "post",
-      "user": "",
       "visitor": "post"
     },
     "send": {
