@@ -1,11 +1,17 @@
-const mongoose = require("mongoose")
-const connectionString = require("./connectionString.js")
+const mongoose = require('mongoose')
+const connectionString = require('./connectionString.js')
 
 const connectToDb = () => {
-  mongoose
-    .connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("MongoDB connected"))
-    .catch(err => console.log(err))
+  // connect to db for testing
+  mongoose.connect('mongodb://localhost/testPooff', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+  // mongoose
+  //   .connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
+  //   .then(() => console.log("MongoDB connected"))
+  //   .catch(err => console.log(err))
 
   global.db = mongoose.connection
 }

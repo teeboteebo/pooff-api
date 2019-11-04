@@ -13,21 +13,21 @@ router.post('/api/qnas', async (req, res) => {
 })
 
 // find all questions and answers
-router.get('/api/qna', async (req, res) => {
+router.get('/api/qnas', async (req, res) => {
   let allQuestionsAndAnswers = await Qna.find()
   res.status(200).send(allQuestionsAndAnswers)
 })
 
 // update questions and answers
-router.put('/api/qnas/:id', async (req, res) => {
-  let updateQuestionAndAnswer = await Qna.findById(req.params.id)
-  updateQuestionAndAnswer.question = req.body.question
-  updateQuestionAndAnswer.answer = req.body.answer
-  updateQuestionAndAnswer.save(function(err) {
+router.put('/api/qnas/id/:id', async (req, res, next) => {
+  let qna = await Qna.findById(req.params.id)
+  let updatedQna = { ...req.body }
+  Object.assign(qna, updatedQna)
+  qna.save(function(err) {
     if (err) {
       next(err)
     } else {
-      res.json(updateQuestionAndAnswer)
+      res.json(qna)
     }
   })
 })
