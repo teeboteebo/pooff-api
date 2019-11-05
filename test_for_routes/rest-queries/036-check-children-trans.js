@@ -4,7 +4,6 @@ module.exports = ({ expect, response, store }) => ({
 
   test() {
     expect(response).to.be.an('array').that.is.not.empty
-    // expect(response[0]._id).to.be.equal(store.userOneChildPhone)
   }
 })
 
