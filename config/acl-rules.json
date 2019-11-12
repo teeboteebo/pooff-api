@@ -38,7 +38,7 @@
     "mychildren": {
       "parent": "get"
     },
-    "qna": {
+    "qnas": {
       "admin": "all",
       "bank": "get",
       "parent": "get",

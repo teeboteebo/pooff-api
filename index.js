@@ -31,7 +31,7 @@ connectToDb()
 const app = express()
 
 app.use(bodyParser.json())
-app.get("/", (req, res) => res.send("Welcome To Pooff Server"))
+app.get('/', (req, res) => res.send('Welcome To Pooff Server'))
 global.salt = settings.salt
 
 app.use(
@@ -46,7 +46,7 @@ app.use(
   })
 )
 
-//app.use(acl(aclRules))
+app.use(acl(aclRules))
 
 app.use(
   userRoutes,
