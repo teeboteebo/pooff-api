@@ -15,6 +15,7 @@ const loginRoutes = require("./api/loginRoutes")
 const transactionRoutes = require("./api/transactionRoutes")
 const myTransactionsRoute = require("./api/myTransactionsRoute")
 const myUserRoutes = require("./api/myUserRoutes")
+const linkRoutes = require("./api/linkRoutes")
 
 // ACL
 const aclRules = require("./config/acl-rules.json")
@@ -31,7 +32,7 @@ connectToDb()
 const app = express()
 
 app.use(bodyParser.json())
-app.get('/', (req, res) => res.send('Welcome To Pooff Server'))
+app.get("/", (req, res) => res.send("Welcome To Pooff Server"))
 global.salt = settings.salt
 
 app.use(
@@ -41,9 +42,9 @@ app.use(
     saveUninitialized: true,
     cookie: { secure: false },
     store: new MongoStore({
-      mongooseConnection: global.db
-    })
-  })
+      mongooseConnection: global.db,
+    }),
+  }),
 )
 
 app.use(acl(aclRules))
@@ -57,7 +58,8 @@ app.use(
   myTransactionsRoute,
   myUserRoutes,
   notificationRoutes,
-  mailRoutes
+  mailRoutes,
+  linkRoutes,
 )
 
 cron.schedule("* * * * *", async function() {
