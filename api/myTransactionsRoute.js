@@ -47,6 +47,7 @@ router.get('/api/mytransactions/id/:id', async (req, res) => {
 
 // Get my user balance
 router.get('/api/mytransactions/balance', async (req, res) => {
+  // console.log(req.session.user)
   const balance = await checkBalance(req.session.user._id)
   res.json({ balance })
 })
