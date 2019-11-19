@@ -28,6 +28,8 @@ router.get('/api/mytransactions', async (req, res) => {
 })
 
 router.get('/api/mytransactions/id/:id', async (req, res) => {
+  console.log('running get one trans');
+  
   let user = await User.findById(req.session.user._id)
   if (!user) {
     res.json([])
@@ -37,7 +39,7 @@ router.get('/api/mytransactions/id/:id', async (req, res) => {
   let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender').populate('receiver').exec()
   let allUserTransactions = userTransactionsSent.concat(userTransactionsReceived)
 
-  let theTransaction = allUserTransactions.find(transaction => transaction._id === req.params.id)
+  let theTransaction = allUserTransactions.find(transaction => transaction._id == req.params.id)  
   res.json(theTransaction)
 
 })
