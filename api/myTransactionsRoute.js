@@ -10,27 +10,40 @@ const router = express.Router()
 // by only looking up transactions belonging to the logged in user
 router.get('/api/mytransactions', async (req, res) => {
   let user = await User.findById(req.session.user._id)
-    .populate('transactions')
-    .exec()
   if (!user) {
     res.json([])
     return
   }
-  console.log(user)
-
-  user.transactions.forEach(transaction => {
-    let userId = JSON.stringify(req.session.user._id)
-    let sender = JSON.stringify(transaction.sender)
-    if (sender === userId) {
-      transaction.amount = transaction.amount * -1
-      // If sender = user, flip the amount
-    }
+  let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender').populate('receiver').exec()
+  userTransactionsSent.forEach(transaction => {
+    transaction.amount = transaction.amount * -1
   })
+  let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender').populate('receiver').exec()
 
-  user.transactions.sort((a, b) => (a.date < b.date ? 1 : -1))
-  res.json(user.transactions)
+  let allUserTransactions = userTransactionsSent.concat(userTransactionsReceived)
+
+  allUserTransactions.sort((a, b) => (a.date < b.date ? 1 : -1))
+  res.json(allUserTransactions)
   // console.log(allMyTransactions);
 })
+
+router.get('/api/mytransactions/id/:id', async (req, res) => {
+  console.log('running get one trans');
+  
+  let user = await User.findById(req.session.user._id)
+  if (!user) {
+    res.json([])
+    return
+  }
+  let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender').populate('receiver').exec()
+  let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender').populate('receiver').exec()
+  let allUserTransactions = userTransactionsSent.concat(userTransactionsReceived)
+
+  let theTransaction = allUserTransactions.find(transaction => transaction._id == req.params.id)  
+  res.json(theTransaction)
+
+})
+
 
 // Get my user balance
 router.get('/api/mytransactions/balance', async (req, res) => {
@@ -40,7 +53,7 @@ router.get('/api/mytransactions/balance', async (req, res) => {
 })
 
 // Get some cash
-router.post('/api/mytransactions/topup', async (req, res) => {  
+router.post('/api/mytransactions/topup', async (req, res) => {
   let { sender, amount } = req.body
   let receiver = await User.findById(req.session.user._id)
   sender = await User.findOne({ phone: sender })
@@ -57,7 +70,7 @@ router.post('/api/mytransactions/topup', async (req, res) => {
     sender.transactions.push(newTransaction)
     try {
       await receiver.save()
-      await sender.save()      
+      await sender.save()
     }
     catch (err) {
       result = err
@@ -65,8 +78,15 @@ router.post('/api/mytransactions/topup', async (req, res) => {
   }
   catch (err) {
     result = err
-  }  
+  }
   res.json(result)
+})
+
+//Return first and lastname based on phonenumber
+
+router.get('/api/mytransactions/number/:number', async (req, res) => {
+  let foundUser = await User.findOne({ phone: req.params.number }).select('firstName lastName').exec()
+  res.json(foundUser)
 })
 
 module.exports = router
