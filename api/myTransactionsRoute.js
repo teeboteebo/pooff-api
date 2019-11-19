@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../schemas/User')
+const Transaction = require('../schemas/Transaction')
 const checkBalance = require('./checkBalance')
 
 const router = express.Router()
@@ -35,6 +36,36 @@ router.get('/api/mytransactions', async (req, res) => {
 router.get('/api/mytransactions/balance', async (req, res) => {
   const balance = await checkBalance(req.session.user._id)
   res.json({ balance })
+})
+
+// Get some cash
+router.post('/api/mytransactions/topup', async (req, res) => {  
+  let { sender, amount } = req.body
+  let receiver = await User.findById(req.session.user._id)
+  sender = await User.findOne({ phone: sender })
+  let result = 'Success'
+  let newTransaction = new Transaction({
+    sender: sender._id,
+    receiver: receiver._id,
+    amount,
+    message: 'Top up'
+  })
+  try {
+    await newTransaction.save()
+    receiver.transactions.push(newTransaction)
+    sender.transactions.push(newTransaction)
+    try {
+      await receiver.save()
+      await sender.save()      
+    }
+    catch (err) {
+      result = err
+    }
+  }
+  catch (err) {
+    result = err
+  }  
+  res.json(result)
 })
 
 module.exports = router

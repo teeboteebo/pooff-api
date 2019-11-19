@@ -28,8 +28,8 @@
     "mytransactions": {
       "admin": "get post",
       "bank": "get",
-      "parent": "get",
-      "user": "get"
+      "parent": "get post",
+      "user": "get post"
     },
     "godaddy": {
       "parent": "put",

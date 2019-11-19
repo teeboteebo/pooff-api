@@ -5,7 +5,7 @@ const encryptPassword = require('../config/encryptPassword')
 const router = express.Router()
 
 router.get('/api/myuser', async (req, res) => {
-  console.log(req.session)
+  console.log(req.session, 'sess')
   let user = await User.findById(req.session.user._id)
     .populate('transactions')
     .populate('children')
