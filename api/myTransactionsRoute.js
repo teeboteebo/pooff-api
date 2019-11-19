@@ -63,4 +63,11 @@ router.post('/api/mytransactions/topup', async (req, res) => {
   res.json(result)
 })
 
+//Return first and lastname based on phonenumber
+
+router.get('/api/mytransactions/number/:number', async (req, res) => {
+  let foundUser = await User.findOne({phone: req.params.number}).select('firstName lastName').exec()
+  res.json(foundUser)
+})
+
 module.exports = router
