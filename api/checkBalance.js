@@ -7,9 +7,6 @@ const checkBalance = async sessionUserId => {
 
   let balance = 0
 
-  console.log(user.transactions);
-
-
   user.transactions.forEach(transaction => {
     let userId = JSON.stringify(sessionUserId)
     let receiver = JSON.stringify(transaction.receiver)

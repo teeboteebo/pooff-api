@@ -36,6 +36,9 @@ router.get('/api/mytransactions/id/:id', async (req, res) => {
     return
   }
   let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
+  userTransactionsSent.forEach(transaction => {
+    transaction.amount = transaction.amount * -1
+  })
   let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
   let allUserTransactions = userTransactionsSent.concat(userTransactionsReceived)
 
@@ -47,6 +50,7 @@ router.get('/api/mytransactions/id/:id', async (req, res) => {
 
 // Get my user balance
 router.get('/api/mytransactions/balance', async (req, res) => {
+  // console.log(req.session.user)
   const balance = await checkBalance(req.session.user._id)
   res.json({ balance })
 })

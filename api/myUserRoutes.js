@@ -1,6 +1,7 @@
 const express = require('express')
 const User = require('../schemas/User')
 const encryptPassword = require('../config/encryptPassword')
+const checkBalance = require('./checkBalance')
 
 const router = express.Router()
 
@@ -54,7 +55,12 @@ router.get('/api/mychildren', async (req, res) => {
       .populate('transactions')
       .select('transactions firstName lastName')
       .exec()
-    myChildrenTransactions.push(me)
+
+    let meJSON = JSON.stringify(me)
+    meObj = JSON.parse(meJSON)
+    meObj.balance = await checkBalance(me._id)
+    console.log(meObj)
+    myChildrenTransactions.push(meObj)
   }
 
   res.json(myChildrenTransactions)
