@@ -9,42 +9,48 @@ const router = express.Router()
 // because the "acl" in this case take place inside the route
 // by only looking up transactions belonging to the logged in user
 router.get('/api/mytransactions', async (req, res) => {
-  let user = await User.findById(req.session.user._id)
-  if (!user) {
+  if (!req.session.user) {
     res.json([])
     return
   }
-  let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
-  userTransactionsSent.forEach(transaction => {
-    transaction.amount = transaction.amount * -1
+  let user = await User.findById(req.session.user._id)
+    .populate({
+      path: 'transactions',
+      populate: {
+        path: 'sender receiver',
+        select: 'firstName lastName'
+      }
+    })
+    .exec()
+  // If sender === user - flip the amount
+  user.transactions.forEach(transaction => {
+    if (JSON.stringify(transaction.sender._id) === JSON.stringify(req.session.user._id)) transaction.amount = transaction.amount * -1
   })
-  let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
-
-  let allUserTransactions = userTransactionsSent.concat(userTransactionsReceived)
-
-  allUserTransactions.sort((a, b) => (a.date < b.date ? 1 : -1))
-  res.json(allUserTransactions)
-  // console.log(allMyTransactions);
+  user.transactions.sort((a, b) => (a.date < b.date ? 1 : -1))
+  res.json(user.transactions)
 })
 
 router.get('/api/mytransactions/id/:id', async (req, res) => {
-  console.log('running get one trans');
-  
-  let user = await User.findById(req.session.user._id)
-  if (!user) {
+  if (!req.session.user) {
     res.json([])
     return
   }
-  let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
-  userTransactionsSent.forEach(transaction => {
-    transaction.amount = transaction.amount * -1
+  let user = await User.findById(req.session.user._id)
+    .populate({
+      path: 'transactions',
+      populate: {
+        path: 'sender receiver',
+        select: 'firstName lastName'
+      }
+    })
+    .exec()
+  // If sender === user - flip the amount
+  user.transactions.forEach(transaction => {
+    if (JSON.stringify(transaction.sender._id) === JSON.stringify(req.session.user._id)) transaction.amount = transaction.amount * -1
   })
-  let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
-  let allUserTransactions = userTransactionsSent.concat(userTransactionsReceived)
+  let theTransaction = user.transactions.find(transaction => transaction._id == req.params.id)
 
-  let theTransaction = allUserTransactions.find(transaction => transaction._id == req.params.id)  
   res.json(theTransaction)
-
 })
 
 
