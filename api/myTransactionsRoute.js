@@ -14,11 +14,11 @@ router.get('/api/mytransactions', async (req, res) => {
     res.json([])
     return
   }
-  let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender').populate('receiver').exec()
+  let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
   userTransactionsSent.forEach(transaction => {
     transaction.amount = transaction.amount * -1
   })
-  let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender').populate('receiver').exec()
+  let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
 
   let allUserTransactions = userTransactionsSent.concat(userTransactionsReceived)
 
@@ -35,8 +35,11 @@ router.get('/api/mytransactions/id/:id', async (req, res) => {
     res.json([])
     return
   }
-  let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender').populate('receiver').exec()
-  let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender').populate('receiver').exec()
+  let userTransactionsSent = await Transaction.find({ sender: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
+  userTransactionsSent.forEach(transaction => {
+    transaction.amount = transaction.amount * -1
+  })
+  let userTransactionsReceived = await Transaction.find({ receiver: req.session.user._id }).populate('sender', 'firstName lastName').populate('receiver', 'firstName lastName').exec()
   let allUserTransactions = userTransactionsSent.concat(userTransactionsReceived)
 
   let theTransaction = allUserTransactions.find(transaction => transaction._id == req.params.id)  
