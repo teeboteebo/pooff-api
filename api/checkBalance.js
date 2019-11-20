@@ -14,12 +14,8 @@ const checkBalance = async sessionUserId => {
 
     if (receiver === userId) {
       balance += transaction.amount
-      console.log('adding balance');
-
     } else if (sender === userId) {
       balance -= transaction.amount
-      console.log('subtracting balance');
-
     }
   })
 

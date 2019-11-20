@@ -38,7 +38,6 @@ router.put('/api/godaddy', async (req, res) => {
   await newUser.save().catch(err => (error = err + ''))
 
   let thisUser = await User.findById(req.session.user._id)
-  console.log(thisUser)
   thisUser.role = 'parent'
   thisUser.children.push(newUser._id)
   await thisUser.save().catch(err => (error = err + ''))
@@ -52,14 +51,25 @@ router.get('/api/mychildren', async (req, res) => {
   const myChildrenTransactions = []
   for (let child of user.children) {
     const me = await User.findById(child)
-      .populate('transactions')
+      .populate({
+        path: 'transactions',
+        populate: ({
+          path: 'sender receiver',
+          select: 'firstName lastName _id'
+        })
+      })
       .select('transactions firstName lastName')
       .exec()
 
+    me.transactions.forEach(transaction => {
+      if (JSON.stringify(transaction.sender._id) === JSON.stringify(me._id)) {
+        transaction.amount = transaction.amount * -1
+      } 
+    })
+
     let meJSON = JSON.stringify(me)
-    meObj = JSON.parse(meJSON)
+    const meObj = JSON.parse(meJSON)
     meObj.balance = await checkBalance(me._id)
-    console.log(meObj)
     myChildrenTransactions.push(meObj)
   }
 
