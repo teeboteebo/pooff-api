@@ -4,8 +4,7 @@
     "users": {
       "admin": "all",
       "bank": "get",
-      "visitor": "post",
-      "user": "post"
+      "visitor": "post"
     },
     "send": {
       "admin": "post",
