@@ -14,7 +14,7 @@ router.post("/api/qnas", async (req, res) => {
 
 // find all questions and answers
 router.get('/api/qnas', async (req, res) => {
-  let allQuestionsAndAnswers = await Qna.find()
+  let allQuestionsAndAnswers = await Qna.find().sort({ counter: -1 }).exec()
   res.status(200).send(allQuestionsAndAnswers)
 })
 
@@ -23,7 +23,7 @@ router.put('/api/qnas/id/:id', async (req, res, next) => {
   let qna = await Qna.findById(req.params.id)
   let updatedQna = { ...req.body }
   Object.assign(qna, updatedQna)
-  qna.save(function(err) {
+  qna.save(function (err) {
     if (err) {
       next(err);
     } else {

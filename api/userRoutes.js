@@ -14,14 +14,8 @@ router.get("/api/users/id/:id", async (req, res) => {
   res.status(200).send(user)
 })
 
-router.get("/api/users/phone/:id", async (req, res) => {
-  let user = await User.find({ phone: req.params.id }, "firstName lastName")
-
-  res.status(200).send(user)
-})
-
-router.get("/api/users/email/:id", async (req, res) => {
-  let user = await User.find({ email: req.params.id })
+router.get("/api/users/email/:email", async (req, res) => {
+  let user = await User.find({ email: req.params.email })
   res.status(200).send(user)
 })
 
