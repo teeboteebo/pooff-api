@@ -7,7 +7,7 @@ module.exports = ({apiPath, rules}) => {
   return function(req, res, next){
 
     // Don't mess with routes not starting with /api/
-    if(req.indexOf('/api/') !== 0){
+    if(req.url.indexOf('/api/') !== 0){
       next()
       return
     }
