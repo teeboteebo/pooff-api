@@ -5,6 +5,14 @@ module.exports = ({apiPath, rules}) => {
   apiPath += apiPath.slice(-1) !== '/' ? '/' : '';
  
   return function(req, res, next){
+
+    // Don't mess with routes not starting with /api/
+    if(req.indexOf('/api/') !== 0){
+      next()
+      return
+    }
+
+
     if(req.url.indexOf(apiPath) === 0){
       // This is an api route.
       // Get the users role and the entity requested
