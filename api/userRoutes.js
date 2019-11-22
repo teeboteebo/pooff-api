@@ -14,8 +14,12 @@ router.get("/api/users/id/:id", async (req, res) => {
   res.status(200).send(user)
 })
 
-router.post('/api/users', async (req, res) => {
+router.get("/api/users/email/:email", async (req, res) => {
+  let user = await User.find({ email: req.params.email })
+  res.status(200).send(user)
+})
 
+router.post("/api/users", async (req, res) => {
   // we should check that the same username does
   // not exist... let's save that for letter
   if (typeof req.body.password !== "string" || req.body.password.length < 6) {
@@ -41,7 +45,7 @@ router.put("/api/users/activate/:id/", async (req, res) => {
   let user = await User.findById(req.params.id)
 
   user.active = true
-  user.save(function (err) {
+  user.save(function(err) {
     if (err) {
       next(err)
     } else {
@@ -54,7 +58,7 @@ router.put("/api/users/deactivate/:id/", async (req, res) => {
   let user = await User.findById(req.params.id)
 
   user.active = false
-  user.save(function (err) {
+  user.save(function(err) {
     if (err) {
       next(err)
     } else {
