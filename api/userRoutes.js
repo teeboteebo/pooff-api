@@ -15,6 +15,7 @@ router.get("/api/users/id/:id", async (req, res) => {
 })
 
 router.post('/api/users', async (req, res) => {
+
   // we should check that the same username does
   // not exist... let's save that for letter
   if (typeof req.body.password !== "string" || req.body.password.length < 6) {
