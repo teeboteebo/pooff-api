@@ -14,6 +14,11 @@ router.get("/api/users/id/:id", async (req, res) => {
   res.status(200).send(user)
 })
 
+router.get("/api/users/username/:username", async (req, res) => {
+  let user = await User.findOne({ username: req.params.username })
+  res.status(200).send(user)
+})
+
 router.get("/api/users/email/:email", async (req, res) => {
   let user = await User.find({ email: req.params.email })
   res.status(200).send(user)
