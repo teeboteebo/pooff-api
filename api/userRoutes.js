@@ -80,6 +80,14 @@ router.put("/api/users/id/:id/edit", async (req, res) => {
   res.json(user)
 })
 
+router.put("/api/child/:id/", async (req, res) => {
+  let user = await User.findById(req.params.id)
+  req.body.password = await encryptPassword(req.body.password)
+  Object.assign(user, req.body)
+  await user.save()
+  res.json(user)
+})
+
 router.put("/api/password/:id", async (req, res) => {
   let user = await User.findById(req.params.id)
   req.body.password = await encryptPassword(req.body.password)

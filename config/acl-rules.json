@@ -75,6 +75,9 @@
     },
     "password": {
       "visitor": "put"
+    },
+    "child": {
+      "visitor": "put"
     }
   }
 }
