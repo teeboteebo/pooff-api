@@ -6,7 +6,6 @@ const checkBalance = require('./checkBalance')
 const router = express.Router()
 
 router.get('/api/myuser', async (req, res) => {
-  console.log(req.session, 'sess')
   let user = await User.findById(req.session.user._id)
     .populate('transactions')
     .populate('children')
@@ -25,7 +24,7 @@ router.put('/api/myuser', async (req, res) => {
 
 router.put('/api/godaddy', async (req, res) => {
   console.log('running');
-  
+
   let newUser = new User({
     ...req.body,
   })
@@ -41,7 +40,7 @@ router.put('/api/godaddy', async (req, res) => {
 })
 
 router.get('/api/mychildren', async (req, res) => {
-  const user = await User.findById(req.session.user._id)  
+  const user = await User.findById(req.session.user._id)
   const myChildrenTransactions = []
   for (let child of user.children) {
     const me = await User.findById(child)
@@ -57,7 +56,7 @@ router.get('/api/mychildren', async (req, res) => {
     me.transactions.forEach(transaction => {
       if (JSON.stringify(transaction.sender._id) === JSON.stringify(me._id)) {
         transaction.amount = transaction.amount * -1
-      } 
+      }
     })
 
     let meJSON = JSON.stringify(me)
@@ -66,7 +65,30 @@ router.get('/api/mychildren', async (req, res) => {
     myChildrenTransactions.push(meObj)
   }
 
-  res.json(myChildrenTransactions)  
+  res.json(myChildrenTransactions)
+})
+
+// GET all favourites
+router.get('/api/myuser/favorites', async (req, res) => {
+  const thisUserFavourites = await User.findById(req.session.user._id).select('favorites').exec()
+  res.json(thisUserFavourites)
+})
+// PUT new favourite
+router.put('/api/myuser/favorites', async (req, res) => {
+  console.log(req.body);
+  
+  const thisUser = await User.findById(req.session.user._id)
+  const newFavourite = { ...req.body }
+  thisUser.favorites.push(newFavourite)
+  await thisUser.save()
+  res.json('Favorite saved')
+})
+
+router.delete('/api/myuser/favorites/:phone', async (req, res) => {
+  const thisUser = await User.findById(req.session.user._id)
+  let favoriteToDelete = thisUser.favorites.findIndex(favorite => JSON.stringify(favorite.phone) === JSON.stringify(req.params.phone))
+  thisUser.favorites.splice(favoriteToDelete, 1)
+  await thisUser.save()
 })
 
 module.exports = router
