@@ -71,25 +71,29 @@ router.get('/api/mychildren', async (req, res) => {
 
 // GET all favourites
 router.get('/api/myuser/favorites', async (req, res) => {
-  const thisUserFavourites = await User.findById(req.session.user._id).select('favorites').exec()
-  res.json(thisUserFavourites)
+  const thisUserFavorites = await User.findById(req.session.user._id)
+  res.json(thisUserFavorites.favorites)
 })
 // PUT new favourite
 router.put('/api/myuser/favorites', async (req, res) => {
-  console.log(req.body);
+  console.log('running: ', req.body);
   
   const thisUser = await User.findById(req.session.user._id)
-  const newFavourite = { ...req.body }
-  thisUser.favorites.push(newFavourite)
+  const newFavorite = { ...req.body }
+  
+  thisUser.favorites.push(newFavorite)
   await thisUser.save()
   res.json('Favorite saved')
 })
 
 router.delete('/api/myuser/favorites/:phone', async (req, res) => {
+  console.log('running delete');
+  
   const thisUser = await User.findById(req.session.user._id)
   let favoriteToDelete = thisUser.favorites.findIndex(favorite => JSON.stringify(favorite.phone) === JSON.stringify(req.params.phone))
   thisUser.favorites.splice(favoriteToDelete, 1)
   await thisUser.save()
+  res.json(thisUser.favorites)
 })
 
 module.exports = router
