@@ -19,6 +19,7 @@ router.put('/api/myuser', async (req, res) => {
   if (updatedUser.role) delete updatedUser.role
   await Object.assign(user, updatedUser)
   await user.save()
+  console.log(user)
   res.json(user)
 })
 
@@ -51,7 +52,7 @@ router.get('/api/mychildren', async (req, res) => {
           select: 'firstName lastName _id'
         })
       })
-      .select('transactions firstName lastName')
+      .select('transactions firstName lastName phone')
       .exec()
     me.transactions.forEach(transaction => {
       if (JSON.stringify(transaction.sender._id) === JSON.stringify(me._id)) {
