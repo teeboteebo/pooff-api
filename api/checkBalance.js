@@ -14,10 +14,9 @@ const checkBalance = async sessionUserId => {
 
     if (receiver === userId) {
       balance += transaction.amount
-
-    } else if (sender === userId) {
+    }
+    if (sender === userId) {
       balance -= transaction.amount
-
     }
   })
 
