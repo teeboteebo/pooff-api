@@ -4,6 +4,7 @@ const { mail } = require("../config/config")
 const Link = require("../schemas/Link")
 const resetPwTemplate = require("../mail/resetPwTemplate")
 const welcomeTemplate = require("../mail/welcomeTemplate")
+const newChildTemplate = require("../mail/newChildTemplate")
 const crypto = require("crypto")
 let mailOptions = {}
 
@@ -59,6 +60,23 @@ router.post("/api/send", async function(req, res, next) {
       })
       await linkObj.save(console.log("SAVED"))
       break
+    
+      case "child":
+        mailOptions = {
+          from: `"Pooff" <pooffmoney@gmail.com>`,
+          replyTo: "pooffmoney@gmail.com",
+          to: req.body.email,
+          subject: "Välkommen till Pooff!",
+          html: newChildTemplate(link, () => {})
+        }
+        linkObj = new Link({
+          email: req.body.email,
+          link,
+          time: Date.now(),
+          type: req.body.type
+        })
+        await linkObj.save(console.log("SAVED"))
+        break
 
     default:
       mailOptions = {
