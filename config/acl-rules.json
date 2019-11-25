@@ -66,6 +66,15 @@
     },
     "active": {
       "visitor": "get"
+    },
+    "email": {
+      "visitor": "get"
+    },
+    "links": {
+      "visitor": "get"
+    },
+    "password": {
+      "visitor": "put"
     }
   }
 }

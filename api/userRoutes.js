@@ -19,7 +19,7 @@ router.get("/api/active/:username", async (req, res) => {
   res.status(200).send(user)
 })
 
-router.get("/api/users/email/:email", async (req, res) => {
+router.get("/api/email/:email", async (req, res) => {
   let user = await User.find({ email: req.params.email })
   res.status(200).send(user)
 })
@@ -73,6 +73,14 @@ router.put("/api/users/deactivate/:id/", async (req, res) => {
 })
 
 router.put("/api/users/id/:id/edit", async (req, res) => {
+  let user = await User.findById(req.params.id)
+  req.body.password = await encryptPassword(req.body.password)
+  Object.assign(user, req.body)
+  await user.save()
+  res.json(user)
+})
+
+router.put("/api/password/:id", async (req, res) => {
   let user = await User.findById(req.params.id)
   req.body.password = await encryptPassword(req.body.password)
   Object.assign(user, req.body)
