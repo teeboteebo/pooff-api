@@ -24,14 +24,10 @@ router.put('/api/myuser', async (req, res) => {
 })
 
 router.put('/api/godaddy', async (req, res) => {
-  if (typeof req.body.password !== 'string' || req.body.password.length < 6) {
-    res.json({ error: 'Password to short' })
-    return
-  }
-
+  console.log('running');
+  
   let newUser = new User({
     ...req.body,
-    password: encryptPassword(req.body.password)
   })
 
   let error
