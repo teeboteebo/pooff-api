@@ -36,7 +36,8 @@
       "user": "put"
     },
     "mychildren": {
-      "parent": "get"
+      "parent": "get",
+      "user": "get"
     },
     "qnas": {
       "admin": "all",
