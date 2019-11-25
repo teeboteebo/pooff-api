@@ -24,7 +24,6 @@ router.get('/api/mytransactions', async (req, res) => {
     .exec()
   // If sender === user - flip the amount
   user.transactions.forEach(transaction => {
-    if (JSON.stringify(transaction.sender._id) === JSON.stringify(transaction.receiver._id)) delete transaction
     if (JSON.stringify(transaction.sender._id) === JSON.stringify(req.session.user._id)) transaction.amount = transaction.amount * -1
   })
   user.transactions.sort((a, b) => (a.date < b.date ? 1 : -1))
