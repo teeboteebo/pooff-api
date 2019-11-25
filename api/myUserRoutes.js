@@ -24,19 +24,14 @@ router.put('/api/myuser', async (req, res) => {
 })
 
 router.put('/api/godaddy', async (req, res) => {
-  if (typeof req.body.password !== 'string' || req.body.password.length < 6) {
-    res.json({ error: 'Password to short' })
-    return
-  }
-
+  console.log('running');
+  
   let newUser = new User({
     ...req.body,
-    password: encryptPassword(req.body.password)
   })
 
   let error
   await newUser.save().catch(err => (error = err + ''))
-
   let thisUser = await User.findById(req.session.user._id)
   thisUser.role = 'parent'
   thisUser.children.push(newUser._id)
@@ -46,8 +41,7 @@ router.put('/api/godaddy', async (req, res) => {
 })
 
 router.get('/api/mychildren', async (req, res) => {
-  const user = await User.findById(req.session.user._id)
-
+  const user = await User.findById(req.session.user._id)  
   const myChildrenTransactions = []
   for (let child of user.children) {
     const me = await User.findById(child)
@@ -60,7 +54,6 @@ router.get('/api/mychildren', async (req, res) => {
       })
       .select('transactions firstName lastName')
       .exec()
-
     me.transactions.forEach(transaction => {
       if (JSON.stringify(transaction.sender._id) === JSON.stringify(me._id)) {
         transaction.amount = transaction.amount * -1
@@ -73,7 +66,7 @@ router.get('/api/mychildren', async (req, res) => {
     myChildrenTransactions.push(meObj)
   }
 
-  res.json(myChildrenTransactions)
+  res.json(myChildrenTransactions)  
 })
 
 module.exports = router
