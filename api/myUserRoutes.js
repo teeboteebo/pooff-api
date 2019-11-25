@@ -6,7 +6,7 @@ const checkBalance = require('./checkBalance')
 const router = express.Router()
 
 router.get('/api/myuser', async (req, res) => {
-  console.log(req.session, 'sess')
+  // console.log(req.session, 'sess')
   let user = await User.findById(req.session.user._id)
     .populate('transactions')
     .populate('children')
@@ -20,6 +20,7 @@ router.put('/api/myuser', async (req, res) => {
   if (updatedUser.role) delete updatedUser.role
   await Object.assign(user, updatedUser)
   await user.save()
+  console.log(user)
   res.json(user)
 })
 
@@ -58,7 +59,7 @@ router.get('/api/mychildren', async (req, res) => {
           select: 'firstName lastName _id'
         })
       })
-      .select('transactions firstName lastName')
+      .select('transactions firstName lastName phone')
       .exec()
 
     me.transactions.forEach(transaction => {
