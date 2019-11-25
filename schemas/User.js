@@ -17,7 +17,8 @@ let userSchema = new Schema({
   ],
   children:     [
     {type: Schema.Types.ObjectId, ref: 'User'}
-  ]
+  ],
+  favorites:    {type: Array}
 })
 
 module.exports = mongoose.model("User", userSchema)
