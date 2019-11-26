@@ -46,7 +46,7 @@ router.post("/api/users", async (req, res) => {
   res.json(error ? { error } : { success: "User created" })
 })
 
-router.put("/api/users/activate/:id/", async (req, res) => {
+router.put("/api/activate/:id/", async (req, res) => {
   let user = await User.findById(req.params.id)
 
   user.active = true

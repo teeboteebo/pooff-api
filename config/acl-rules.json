@@ -78,6 +78,9 @@
     },
     "child": {
       "visitor": "put"
+    },
+    "activate": {
+      "visitor": "put"
     }
   }
 }
