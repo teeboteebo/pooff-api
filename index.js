@@ -73,7 +73,6 @@ cron.schedule("* * * * *", async function() {
   })
 })
 
-
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
 
 // if on server serve static build files
