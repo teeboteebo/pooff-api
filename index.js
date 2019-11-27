@@ -72,7 +72,13 @@ cron.schedule("* * * * *", async function() {
     }
   })
 })
-
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, './index.html'), function(err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+})
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
 
