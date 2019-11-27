@@ -77,6 +77,7 @@ app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
 
 // if on server serve static build files
 if(__dirname === '/var/www/pooff-api'){
+  console.log(path.join(__dirname, '../pooff/build/index.html'))
   app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '../pooff/build/index.html'), function(err) {
       if (err) {
