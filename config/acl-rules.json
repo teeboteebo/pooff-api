@@ -68,12 +68,24 @@
       "visitor": "get"
     },
     "email": {
+      "admin": "get",
+      "bank": "get",
+      "parent": "get",
+      "user": "get",
       "visitor": "get"
     },
     "links": {
+      "admin": "get",
+      "bank": "get",
+      "parent": "get",
+      "user": "get",
       "visitor": "get"
     },
     "password": {
+      "admin": "put",
+      "bank": "put",
+      "parent": "put",
+      "user": "put",
       "visitor": "put"
     },
     "child": {
