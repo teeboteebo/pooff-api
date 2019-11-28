@@ -74,6 +74,7 @@ router.get('/api/myuser/favorites', async (req, res) => {
   const thisUserFavorites = await User.findById(req.session.user._id)
   res.json(thisUserFavorites.favorites)
 })
+
 // PUT new favourite
 router.put('/api/myuser/favorites', async (req, res) => {
   console.log('running: ', req.body);
