@@ -8,9 +8,16 @@ router.post('/api/login', async (req, res) => {
   let {username, password} = req.body;
   password = encryptPassword(password);
   let user = await User.findOne({username, password})
-    .select('username role firstName lastName email').exec();
-  if(user){ req.session.user = user };
-  res.json(user ? user : {error: 'not found'});
+    .select('username role firstName lastName email active').exec();
+  if (user && user.active) {
+    req.session.user = user
+    res.json(user)
+  }
+  else if (user && !user.active) {
+    res.json({ error: 'not active', email: user.email })
+  } else {
+    res.json(user ? user : { error: 'not found' })
+  }
 });
  
 // check if/which user that is logged in
