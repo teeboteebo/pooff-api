@@ -75,16 +75,17 @@ cron.schedule("* * * * *", async function() {
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
 
+
+
 // if on server serve static build files
 if(__dirname === '/var/www/pooff-api'){
-  console.log(path.join(__dirname, '../pooff/build/index.html'))
+  app.use(express.static(path.resolve(__dirname, '../pooff/build')))
   app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../pooff/build/index.html'), function(err) {
+    res.sendFile(path.resolve(__dirname, '../pooff/build/index.html'), function(err) {
       if (err) {
         res.status(500).send(err)
       }
     })
   })
-  app.use(express.static('/var/www/pooff/build'));
   console.log("I am the server. I serve a static build!")
 }
