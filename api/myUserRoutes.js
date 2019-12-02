@@ -52,7 +52,7 @@ router.get('/api/mychildren', async (req, res) => {
           select: 'firstName lastName _id'
         })
       })
-      .select('transactions firstName lastName phone')
+      .select('transactions firstName lastName phone active')
       .exec()
     me.transactions.forEach(transaction => {
       if (JSON.stringify(transaction.sender._id) === JSON.stringify(me._id)) {
