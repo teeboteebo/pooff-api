@@ -59,13 +59,12 @@ router.get('/api/mychildren', async (req, res) => {
         transaction.amount = transaction.amount * -1
       }
     })
-
+    me.transactions.sort((a, b) => (a.date < b.date ? 1 : -1))
     let meJSON = JSON.stringify(me)
     const meObj = JSON.parse(meJSON)
     meObj.balance = await checkBalance(me._id)
     myChildrenTransactions.push(meObj)
   }
-
   res.json(myChildrenTransactions)
 })
 
