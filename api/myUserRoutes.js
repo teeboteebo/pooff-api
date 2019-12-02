@@ -19,13 +19,10 @@ router.put('/api/myuser', async (req, res) => {
   if (updatedUser.role) delete updatedUser.role
   await Object.assign(user, updatedUser)
   await user.save()
-  console.log(user)
   res.json(user)
 })
 
 router.put('/api/godaddy', async (req, res) => {
-  console.log('running');
-
   let newUser = new User({
     ...req.body,
   })
@@ -76,19 +73,14 @@ router.get('/api/myuser/favorites', async (req, res) => {
 
 // PUT new favourite
 router.put('/api/myuser/favorites', async (req, res) => {
-  console.log('running: ', req.body);
-  
   const thisUser = await User.findById(req.session.user._id)
   const newFavorite = { ...req.body }
-  
   thisUser.favorites.push(newFavorite)
   await thisUser.save()
   res.json('Favorite saved')
 })
 
 router.delete('/api/myuser/favorites/:phone', async (req, res) => {
-  console.log('running delete');
-  
   const thisUser = await User.findById(req.session.user._id)
   let favoriteToDelete = thisUser.favorites.findIndex(favorite => JSON.stringify(favorite.phone) === JSON.stringify(req.params.phone))
   thisUser.favorites.splice(favoriteToDelete, 1)
