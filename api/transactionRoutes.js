@@ -35,7 +35,9 @@ router.post("/api/transactions", async (req, res) => {
 
         // using the global sendSSE set in index.js
         global.sendSSE( req => req.session.user && req.session.user.phone === receiver.phone, 'payment', {
-          sender: sender
+          sender: sender.firstName + " " + sender.lastName,
+          amount,
+          message
         });
          // send sse to client
 
