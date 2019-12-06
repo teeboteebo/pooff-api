@@ -78,7 +78,7 @@ app.use(
 cron.schedule("* * * * *", async function () {
   let allLinks = await Link.find()
   allLinks.map(link => {
-    if (Date.now() - 900000 > link.time) {
+    if (Date.now() - 3600000 > link.time && link.type === "reset") {
       link.delete()
       console.log("deleted", link)
     }
