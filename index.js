@@ -17,6 +17,7 @@ const transactionRoutes = require("./api/transactionRoutes")
 const myTransactionsRoute = require("./api/myTransactionsRoute")
 const myUserRoutes = require("./api/myUserRoutes")
 const linkRoutes = require("./api/linkRoutes")
+const registerRoutes = require("./api/registerRoutes")
 
 // ACL
 const aclRules = require("./config/acl-rules.json")
@@ -61,9 +62,10 @@ app.use(
   notificationRoutes,
   mailRoutes,
   linkRoutes,
+  registerRoutes
 )
 
-cron.schedule("* * * * *", async function() {
+cron.schedule("* * * * *", async function () {
   let allLinks = await Link.find()
   allLinks.map(link => {
     if (Date.now() - 900000 > link.time) {
@@ -78,10 +80,10 @@ app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
 
 
 // if on server serve static build files
-if(__dirname === '/var/www/pooff-api'){
+if (__dirname === '/var/www/pooff-api') {
   app.use(express.static(path.resolve(__dirname, '../pooff/build')))
-  app.get('/*', function(req, res) {
-    res.sendFile(path.resolve(__dirname, '../pooff/build/index.html'), function(err) {
+  app.get('/*', function (req, res) {
+    res.sendFile(path.resolve(__dirname, '../pooff/build/index.html'), function (err) {
       if (err) {
         res.status(500).send(err)
       }
