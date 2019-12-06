@@ -5,7 +5,7 @@ let userSchema = new Schema({
   personId: { type: String, unique: true, required: true },
   username: { type: String, unique: true, },
   role: { type: String, default: 'user' },
-  password: { type: String, required: true },
+  password: { type: String },
   firstName: { type: String, required: true },
   lastName: { type: String },
   email: { type: String, unique: true, required: true },
