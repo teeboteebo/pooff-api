@@ -93,6 +93,9 @@
     },
     "activate": {
       "visitor": "put"
+    },
+    "register": {
+      "visitor": "get"
     }
   }
 }

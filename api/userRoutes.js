@@ -15,13 +15,13 @@ router.get("/api/users/id/:id", async (req, res) => {
 })
 
 router.get("/api/active/:username", async (req, res) => {
-    let user = await User.findOne({ username: req.params.username })
-    console.log(user)
+  let user = await User.findOne({ username: req.params.username })
+  console.log(user)
   if (user) {
     res.status(200).send(user)
   }
-  else{
-    res.send({error: "error"})
+  else {
+    res.send({ error: "error" })
   }
 })
 
@@ -34,7 +34,7 @@ router.post("/api/users", async (req, res) => {
   // we should check that the same username does
   // not exist... let's save that for letter
   if (typeof req.body.password !== "string" || req.body.password.length < 6) {
-    res.json({ error: "Password to short" })
+    res.json({ error: "Password too short" })
     return
   }
 
@@ -50,13 +50,15 @@ router.post("/api/users", async (req, res) => {
   let error
   let resultFromSave = await user.save().catch(err => (error = err + ""))
   res.json(error ? { error } : { success: "User created" })
+  console.log(error);
+
 })
 
 router.put("/api/activate/:id/", async (req, res) => {
   let user = await User.findById(req.params.id)
 
   user.active = true
-  user.save(function(err) {
+  user.save(function (err) {
     if (err) {
       next(err)
     } else {
