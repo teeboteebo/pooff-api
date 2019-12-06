@@ -2,6 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const session = require("express-session")
 const path = require('path')
+const sse = require('easy-server-sent-events');
 
 // DB
 const MongoStore = require("connect-mongo")(session)
@@ -49,6 +50,15 @@ app.use(
   }),
 )
 
+const options = {
+  endpoint: '/api/sse',
+  script: '/sse.js'
+};
+
+const {SSE, send, openSessions, openConnections} = sse(options);
+app.use(SSE); 
+global.sendSSE = send;
+
 app.use(acl(aclRules))
 
 app.use(
@@ -68,7 +78,7 @@ app.use(
 cron.schedule("* * * * *", async function () {
   let allLinks = await Link.find()
   allLinks.map(link => {
-    if (Date.now() - 900000 > link.time) {
+    if (Date.now() - 3600000 > link.time && link.type === "reset") {
       link.delete()
       console.log("deleted", link)
     }
@@ -76,8 +86,6 @@ cron.schedule("* * * * *", async function () {
 })
 
 app.listen(5000, () => console.log(`Pooff Server is on port 5000`))
-
-
 
 // if on server serve static build files
 if (__dirname === '/var/www/pooff-api') {

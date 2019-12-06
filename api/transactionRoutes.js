@@ -2,6 +2,7 @@ const express = require("express")
 const Transaction = require("../schemas/Transaction")
 const User = require("../schemas/User")
 const checkBalance = require("./checkBalance")
+
 const router = express.Router()
 
 router.get("/api/transactions", async (req, res) => {
@@ -31,6 +32,16 @@ router.post("/api/transactions", async (req, res) => {
       try {
         await receiver.save()
         await sender.save()
+
+        // using the global sendSSE set in index.js
+        global.sendSSE( req => req.session.user && req.session.user.phone === receiver.phone, 'payment', {
+          sender: sender.firstName + " " + sender.lastName,
+          amount,
+          message,
+          link : newTransaction._id
+        });
+         // send sse to client
+
       } catch (err) {
         result = err
       }
