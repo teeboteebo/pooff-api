@@ -96,6 +96,13 @@
     },
     "register": {
       "visitor": "get"
+    },
+    "subscription": {
+      "admin": "post",
+      "bank": "post",
+      "parent": "post",
+      "user": "post",
+      "visitor": "post"
     }
   }
 }
