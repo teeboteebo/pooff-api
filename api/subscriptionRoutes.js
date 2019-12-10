@@ -1,10 +1,8 @@
 const express = require('express');
 const webpush = require('web-push');
 const { privateVapidKey } = require("../config/connectionString")
-const router = express.router();
-
-// Body parser
-router.use(express.json());
+const router = express.Router();
+const saveSubscription = require('./saveSubscription');
 
 
 // Vapid keys (should not be stored here if in public repo)
@@ -21,21 +19,27 @@ webpush.setVapidDetails(
 );
 
 // Subscribe route
-app.post('/api/push-subscribe', async (req, res) => {
+router.post('/api/push-subscribe', async (req, res) => {
   const subscription = req.body;
   // Send 201 - resource created
   res.status(201).json({ subscribing: true });
 
   console.log('subscription', subscription);
 
+  // check if logged in and then save subsription on user
+  if (req.session.user) { saveSubscription(req.session.user._id, subscription) }
+  // else save on the session for later use on login
+  else {req.session.pendingSubscription = subscription}
+
+
   // Send some notifications...
   // this might not be what you do directly on subscription
   // normally
-  sendNotification(subscription, { body: 'Welcome!' });
+  /*sendNotification(subscription, { body: 'Welcome!' });
   setTimeout(
     () => sendNotification(subscription, { body: 'Still there?' }),
     30000
-  );
+  );*/
 });
 
 // A function that sends notifications
@@ -49,6 +53,8 @@ async function sendNotification(subscription, payload) {
     subscription, JSON.stringify(toSend)
   ).catch(err => console.log(err));
 }
+
+module.exports = router
 
 // Note! In order to be able to send notifications
 // to a certain user we need

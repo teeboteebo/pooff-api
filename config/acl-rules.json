@@ -97,7 +97,7 @@
     "register": {
       "visitor": "get"
     },
-    "subscription": {
+    "push-subscribe": {
       "admin": "post",
       "bank": "post",
       "parent": "post",
