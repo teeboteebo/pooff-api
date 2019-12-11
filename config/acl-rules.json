@@ -75,11 +75,11 @@
       "visitor": "get"
     },
     "links": {
-      "admin": "get",
-      "bank": "get",
-      "parent": "get",
-      "user": "get",
-      "visitor": "get"
+      "admin": "get delete",
+      "bank": "get delete",
+      "parent": "get delete",
+      "user": "get delete",
+      "visitor": "get delete"
     },
     "password": {
       "admin": "put",

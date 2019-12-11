@@ -13,4 +13,14 @@ router.get("/api/links/:link", async (req, res) => {
   }
 });
 
+router.delete("/api/links/:link", async (req, res) => {
+  try {
+    const link = await Link.findOne({ link: req.params.link });
+    link.delete()
+    res.status(200).send("Link deleted!");
+  } catch (err) {
+    res.send("No such link");
+  }
+});
+
 module.exports = router;
