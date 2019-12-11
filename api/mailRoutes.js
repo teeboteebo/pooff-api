@@ -11,6 +11,7 @@ let mailOptions = {}
 const router = express.Router()
 
 router.post("/api/send", async function(req, res, next) {
+  const originURL = req.get('host')  
   let linkObj = {}
   const link = crypto.randomBytes(20).toString("hex")
   const transporter = nodemailer.createTransport({
@@ -33,7 +34,7 @@ router.post("/api/send", async function(req, res, next) {
         replyTo: "pooffmoney@gmail.com",
         to: req.body.email,
         subject: "Välkommen till Pooff!",
-        html: welcomeTemplate(link, () => {})
+        html: welcomeTemplate(link, originURL, () => {})
       }
       linkObj = new Link({
         email: req.body.email,
@@ -50,7 +51,7 @@ router.post("/api/send", async function(req, res, next) {
         replyTo: "pooffmoney@gmail.com",
         to: req.body.email,
         subject: "Återställ lösenord",
-        html: resetPwTemplate(link, () => {})
+        html: resetPwTemplate(link, originURL, () => {})
       }
       linkObj = new Link({
         email: req.body.email,
@@ -67,7 +68,7 @@ router.post("/api/send", async function(req, res, next) {
           replyTo: "pooffmoney@gmail.com",
           to: req.body.email,
           subject: "Välkommen till Pooff!",
-          html: newChildTemplate(link, () => {})
+          html: newChildTemplate(link, originURL, () => {})
         }
         linkObj = new Link({
           email: req.body.email,
