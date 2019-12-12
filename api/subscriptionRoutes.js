@@ -60,7 +60,7 @@ router.post('/api/push-payment', async (req, res) => {
 async function sendNotification(subscription, payload) {
   let toSend = {
     title: 'Betalning mottagen',
-    icon: '/images/pooff-blue.png',
+    icon: '/images/logos/pooff-blue.png',
     ...payload
   };
   await webpush.sendNotification(
