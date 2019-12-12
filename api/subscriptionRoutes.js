@@ -49,7 +49,7 @@ router.post('/api/push-payment', async (req, res) => {
 
   //console.log(sub)
   
-  const subscription = sub.subscriptions[0]
+  const subscription = sub.subscriptions[sub.subscriptions.length-1]
 
 
   sendNotification(subscription, { body: `${req.body.name} skickade ${req.body.amount} kr` });
