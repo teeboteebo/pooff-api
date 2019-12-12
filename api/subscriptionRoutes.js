@@ -3,6 +3,7 @@ const webpush = require('web-push');
 const { privateVapidKey } = require("../config/connectionString")
 const router = express.Router();
 const saveSubscription = require('./saveSubscription');
+const User = require("../schemas/User")
 
 
 // Vapid keys (should not be stored here if in public repo)
@@ -24,7 +25,7 @@ router.post('/api/push-subscribe', async (req, res) => {
   // Send 201 - resource created
   res.status(201).json({ subscribing: true });
 
-  console.log('subscription', subscription);
+  //console.log('subscription', subscription);
 
   // check if logged in and then save subsription on user
   if (req.session.user) { saveSubscription(req.session.user._id, subscription) }
@@ -35,17 +36,30 @@ router.post('/api/push-subscribe', async (req, res) => {
   // Send some notifications...
   // this might not be what you do directly on subscription
   // normally
-  /*sendNotification(subscription, { body: 'Welcome!' });
-  setTimeout(
-    () => sendNotification(subscription, { body: 'Still there?' }),
-    30000
-  );*/
+
+  sendNotification(subscription, { body: 'Welcome!' });
+  
+});
+
+router.post('/api/push-payment', async (req, res) => {
+  //const subscription = req.body;
+  console.log(req.body.number)
+
+  const sub = await User.findOne({ phone: req.body.number })
+
+  //console.log(sub)
+  
+  const subscription = sub.subscriptions[0]
+
+
+  sendNotification(subscription, { body: `${req.body.name} skickade ${req.body.amount} kr` });
+
 });
 
 // A function that sends notifications
 async function sendNotification(subscription, payload) {
   let toSend = {
-    title: 'Our site name',
+    title: 'Pooff',
     icon: '/logo192.png',
     ...payload
   };
