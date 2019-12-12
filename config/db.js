@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const connectionString = require('./connectionString.js')
+const { connectionString } = require('./connectionString.js')
 
 const connectToDb = () => {
   // connect to db for testing

@@ -75,11 +75,11 @@
       "visitor": "get"
     },
     "links": {
-      "admin": "get",
-      "bank": "get",
-      "parent": "get",
-      "user": "get",
-      "visitor": "get"
+      "admin": "get delete",
+      "bank": "get delete",
+      "parent": "get delete",
+      "user": "get delete",
+      "visitor": "get delete"
     },
     "password": {
       "admin": "put",
@@ -96,6 +96,20 @@
     },
     "register": {
       "visitor": "get"
+    },
+    "push-subscribe": {
+      "admin": "post",
+      "bank": "post",
+      "parent": "post",
+      "user": "post",
+      "visitor": "post"
+    },
+    "push-payment": {
+      "admin": "post",
+      "bank": "post",
+      "parent": "post",
+      "user": "post",
+      "visitor": "post"
     }
   }
 }

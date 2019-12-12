@@ -19,6 +19,7 @@ const myTransactionsRoute = require("./api/myTransactionsRoute")
 const myUserRoutes = require("./api/myUserRoutes")
 const linkRoutes = require("./api/linkRoutes")
 const registerRoutes = require("./api/registerRoutes")
+const subscriptionRoutes = require("./api/subscriptionRoutes")
 
 // ACL
 const aclRules = require("./config/acl-rules.json")
@@ -55,7 +56,7 @@ const options = {
   script: '/sse.js'
 };
 
-const {SSE, send, openSessions, openConnections} = sse(options);
+const {SSE, send} = sse(options);
 app.use(SSE); 
 global.sendSSE = send;
 
@@ -72,7 +73,8 @@ app.use(
   notificationRoutes,
   mailRoutes,
   linkRoutes,
-  registerRoutes
+  registerRoutes,
+  subscriptionRoutes
 )
 
 cron.schedule("* * * * *", async function () {

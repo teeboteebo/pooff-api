@@ -1,6 +1,7 @@
 const express = require("express")
 const encryptPassword = require('../config/encryptPassword')
 const User = require("../schemas/User")
+const saveSubscription = require('./saveSubscription')
 
 const router = express.Router()
 
@@ -11,6 +12,10 @@ router.post('/api/login', async (req, res) => {
     .select('username role firstName lastName email phone active').exec();
   if (user && user.active) {
     req.session.user = user
+    if (req.session.pendingSubscription) {
+      saveSubscription(user._id, req.session.pendingSubscription);
+      delete req.session.pendingSubscription;
+    }
     res.json(user)
   }
   else if (user && !user.active) {
