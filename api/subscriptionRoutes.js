@@ -37,7 +37,7 @@ router.post('/api/push-subscribe', async (req, res) => {
   // this might not be what you do directly on subscription
   // normally
 
-  sendNotification(subscription, { body: 'Welcome!' });
+  //sendNotification(subscription, { body: 'Welcome!' });
   
 });
 
