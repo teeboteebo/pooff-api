@@ -1,0 +1,115 @@
+{
+  "apiPath": "/api",
+  "rules": {
+    "users": {
+      "admin": "all",
+      "bank": "get",
+      "visitor": "post"
+    },
+    "send": {
+      "admin": "post",
+      "bank": "post",
+      "parent": "post",
+      "user": "post",
+      "visitor": "post"
+    },
+    "myuser": {
+      "admin": "get put",
+      "bank": "get put",
+      "parent": "get put delete",
+      "user": "get put delete"
+    },
+    "transactions": {
+      "admin": "get post",
+      "bank": "post",
+      "parent": "post",
+      "user": "post"
+    },
+    "mytransactions": {
+      "admin": "get post",
+      "bank": "get",
+      "parent": "get post",
+      "user": "get post"
+    },
+    "godaddy": {
+      "parent": "put",
+      "user": "put"
+    },
+    "mychildren": {
+      "parent": "get",
+      "user": "get"
+    },
+    "qnas": {
+      "admin": "all",
+      "bank": "get",
+      "parent": "get",
+      "user": "get",
+      "visitor": "get"
+    },
+    "counter": {
+      "parent": "put",
+      "user": "put",
+      "visitor": "put"
+    },
+    "login": {
+      "admin": "get delete",
+      "bank": "get delete",
+      "parent": "get delete",
+      "user": "get delete",
+      "visitor": "get post"
+    },
+    "notifications": {
+      "admin": "",
+      "bank": "",
+      "parent": "",
+      "user": ""
+    },
+    "active": {
+      "visitor": "get"
+    },
+    "email": {
+      "admin": "get",
+      "bank": "get",
+      "parent": "get",
+      "user": "get",
+      "visitor": "get"
+    },
+    "links": {
+      "admin": "get delete",
+      "bank": "get delete",
+      "parent": "get delete",
+      "user": "get delete",
+      "visitor": "get delete"
+    },
+    "password": {
+      "admin": "put",
+      "bank": "put",
+      "parent": "put",
+      "user": "put",
+      "visitor": "put"
+    },
+    "child": {
+      "visitor": "put"
+    },
+    "activate": {
+      "visitor": "put"
+    },
+    "register": {
+      "visitor": "get"
+    },
+    "push-subscribe": {
+      "admin": "post",
+      "bank": "post",
+      "parent": "post",
+      "user": "post",
+      "visitor": "post"
+    },
+    "push-payment": {
+      "admin": "post",
+      "bank": "post",
+      "parent": "post",
+      "user": "post",
+      "visitor": "post"
+    }
+  }
+}
