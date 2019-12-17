@@ -49,7 +49,7 @@ router.post("/api/users", async (req, res) => {
   let error
   let resultFromSave = await user.save().catch(err => (error = err + ""))
   res.json(error ? { error } : { success: "User created" })
-  console.log(error);
+  console.log(error)
 
 })
 

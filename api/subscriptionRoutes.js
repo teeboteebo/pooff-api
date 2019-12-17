@@ -1,8 +1,8 @@
-const express = require('express');
-const webpush = require('web-push');
+const express = require('express')
+const webpush = require('web-push')
 const { privateVapidKey } = require("../config/connectionString")
-const router = express.Router();
-const saveSubscription = require('./saveSubscription');
+const router = express.Router()
+const saveSubscription = require('./saveSubscription')
 const User = require("../schemas/User")
 
 
@@ -10,20 +10,20 @@ const User = require("../schemas/User")
 const vapidKeys = {
   public: 'BFc21V5367vHF3b6LJdnzqUEDwocfIDTKTm7Oj8O3AwZCHw7a442Zdrssgy9q6teJQ0E5MvlZhECjWzgBe3Vp3M',
   private: privateVapidKey
-};
+}
 
 // Who is sending the push notification
 webpush.setVapidDetails(
   'mailto:your@yourmail.com',
   vapidKeys.public,
   vapidKeys.private
-);
+)
 
 // Subscribe route
 router.post('/api/push-subscribe', async (req, res) => {
-  const subscription = req.body;
+  const subscription = req.body
   // Send 201 - resource created
-  res.status(201).json({ subscribing: true });
+  res.status(201).json({ subscribing: true })
 
   // check if logged in and then save subsription on user
   if (req.session.user) { saveSubscription(req.session.user._id, subscription) }
@@ -35,18 +35,18 @@ router.post('/api/push-subscribe', async (req, res) => {
   // this might not be what you do directly on subscription
   // normally
 
-  //sendNotification(subscription, { body: 'Welcome!' });
+  //sendNotification(subscription, { body: 'Welcome!' })
   
-});
+})
 
 router.post('/api/push-payment', async (req, res) => {
   const sub = await User.findOne({ phone: req.body.number })
   
   const subscription = sub.subscriptions[sub.subscriptions.length-1]
 
-  sendNotification(subscription, { body: `${req.body.name} skickade ${req.body.amount} kr` });
+  sendNotification(subscription, { body: `${req.body.name} skickade ${req.body.amount} kr` })
 
-});
+})
 
 // A function that sends notifications
 async function sendNotification(subscription, payload) {
@@ -54,10 +54,10 @@ async function sendNotification(subscription, payload) {
     title: 'Betalning mottagen',
     icon: '/images/logos/pooff-blue.png',
     ...payload
-  };
+  }
   await webpush.sendNotification(
     subscription, JSON.stringify(toSend)
-  ).catch(err => console.log(err));
+  ).catch(err => console.log(err))
 }
 
 module.exports = router

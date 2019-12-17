@@ -3,7 +3,7 @@ const User = require("../schemas/User")
 const checkBalance = async sessionUserId => {
   let user = await User.findById(sessionUserId).populate('transactions').exec()
 
-  if (!user) { return; }
+  if (!user) { return }
 
   let balance = 0
 

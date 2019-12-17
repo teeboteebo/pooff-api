@@ -39,7 +39,7 @@ router.post("/api/transactions", async (req, res) => {
           amount,
           message,
           link : newTransaction._id
-        });
+        })
          // send sse to client
 
       } catch (err) {

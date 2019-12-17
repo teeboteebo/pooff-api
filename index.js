@@ -2,7 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const session = require("express-session")
 const path = require('path')
-const sse = require('easy-server-sent-events');
+const sse = require('easy-server-sent-events')
 
 // DB
 const MongoStore = require("connect-mongo")(session)
@@ -54,11 +54,11 @@ app.use(
 const options = {
   endpoint: '/api/sse',
   script: '/sse.js'
-};
+}
 
-const {SSE, send} = sse(options);
-app.use(SSE); 
-global.sendSSE = send;
+const {SSE, send} = sse(options)
+app.use(SSE) 
+global.sendSSE = send
 
 app.use(acl(aclRules))
 

@@ -2,7 +2,7 @@ module.exports = ({apiPath, rules}) => {
  
   // Check if the last character is a slash
   // otherwise add a slash at the end
-  apiPath += apiPath.slice(-1) !== '/' ? '/' : '';
+  apiPath += apiPath.slice(-1) !== '/' ? '/' : ''
  
   return function(req, res, next){
 
@@ -18,13 +18,13 @@ module.exports = ({apiPath, rules}) => {
       // Get the users role and the entity requested
       // (if not logged in set the role visitorr)
       let userRole = req.session.user ?
-        req.session.user.role || 'visitor' : 'visitor';
+        req.session.user.role || 'visitor' : 'visitor'
       
-      let url = req.url;
-      let method = req.method.toLowerCase();
-      url += url.slice(-1) !== '/' ? '/' : '';
+      let url = req.url
+      let method = req.method.toLowerCase()
+      url += url.slice(-1) !== '/' ? '/' : ''
       
-      let entity = url.split(apiPath).join('').split('/')[0];
+      let entity = url.split(apiPath).join('').split('/')[0]
       // Loop through our rules
       for(let rule in rules){
         if(rule === entity){
@@ -35,12 +35,12 @@ module.exports = ({apiPath, rules}) => {
               // Found the role
               // now get allowed methods
               let allowed = rules[rule][role]
-                .toLowerCase().split(' ');
+                .toLowerCase().split(' ')
               if(allowed.includes(method) 
                 || allowed.includes('all')){                
                 // allow user to see this routes
-                next();
-                return;
+                next()
+                return
               }
             }
           }
@@ -49,8 +49,8 @@ module.exports = ({apiPath, rules}) => {
  
       // Do not allow...
       // (don't say forbidden it encourages hackers)
-      res.send('Page not found.');
-      return;
+      res.send('Page not found.')
+      return
     }
   }
 }

@@ -101,7 +101,7 @@ async function run() {
             x.match(/assert\s*[\(\.]/) ||
             x.match(/expect\s*\(/)
         )
-        .map(x => (x.slice(-1) === ';' ? x.slice(0, -1).trim() : x.trim()))
+        .map(x => (x.slice(-1) === '' ? x.slice(0, -1).trim() : x.trim()))
       all.push(t)
     }
   }
@@ -130,7 +130,7 @@ function displayTemplate(niceDate, all) {
     all,
     '',
     '  '
-  )});
+  )})
           ${render}
         </script>
       </body>

@@ -1,7 +1,7 @@
 const express = require("express") 
 const Notification = require("../schemas/Notification") 
  
-let router = express.Router(); 
+let router = express.Router() 
 
 //find all notification that has been posted
 router.get('/api/notification', async (req, res) => { 
@@ -12,9 +12,9 @@ router.get('/api/notification', async (req, res) => {
 
 //create notification
 router.post('/api/notification', async (req, res) => { 
-        let notify = new Notification(req.body); 
+        let notify = new Notification(req.body) 
     try{
-        await notify.save(); 
+        await notify.save() 
         res.json(notify)
     }
     catch (err) {
