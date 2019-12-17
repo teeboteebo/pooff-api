@@ -82,7 +82,6 @@ cron.schedule("* * * * *", async function () {
   allLinks.map(link => {
     if (Date.now() - 3600000 > link.time && link.type === "reset") {
       link.delete()
-      console.log("deleted", link)
     }
   })
 })

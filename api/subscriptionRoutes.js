@@ -25,8 +25,6 @@ router.post('/api/push-subscribe', async (req, res) => {
   // Send 201 - resource created
   res.status(201).json({ subscribing: true });
 
-  //console.log('subscription', subscription);
-
   // check if logged in and then save subsription on user
   if (req.session.user) { saveSubscription(req.session.user._id, subscription) }
   // else save on the session for later use on login
@@ -42,15 +40,9 @@ router.post('/api/push-subscribe', async (req, res) => {
 });
 
 router.post('/api/push-payment', async (req, res) => {
-  //const subscription = req.body;
-  console.log(req.body.number)
-
   const sub = await User.findOne({ phone: req.body.number })
-
-  //console.log(sub)
   
   const subscription = sub.subscriptions[sub.subscriptions.length-1]
-
 
   sendNotification(subscription, { body: `${req.body.name} skickade ${req.body.amount} kr` });
 

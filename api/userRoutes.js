@@ -16,7 +16,6 @@ router.get("/api/users/id/:id", async (req, res) => {
 
 router.get("/api/active/:username", async (req, res) => {
   let user = await User.findOne({ username: req.params.username })
-  console.log(user)
   if (user) {
     res.status(200).send(user)
   }

@@ -7,7 +7,6 @@ let router = express.Router();
 router.post("/api/qnas", async (req, res) => {
   let qna = new Qna(req.body);
   qna.createdAtDate = Date.now();
-  console.log(qna);
   await qna.save();
   res.json(qna);
 });
